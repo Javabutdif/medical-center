@@ -1,27 +1,24 @@
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import Login from "./components/authentication/Login";
 import Register from "./components/authentication/Register";
-import AuthProvider from "./context/AuthProvider";
-import ProtectedRoute from "./components/ProtectedRoute";
+import Home from "./pages/Home";
+
+//Layout
+import LandingLayout from "./components/Layout/LandingLayout";
 
 function App() {
   return (
-    <AuthProvider>
-      <Router>
-        <Routes>
-          <Route path="/login" element={<Login />} />
-          <Route path="/register" element={<Register />} />
-            <Route
-            path="/"
-            element={
-              <ProtectedRoute>
-              </ProtectedRoute>
-            }
-          />
-          {/* Add more routes here as needed */}
-        </Routes>
-      </Router>
-    </AuthProvider>
+    <Router>
+      <Routes>
+        <Route path="/" element={<LandingLayout />}>
+          <Route index element={<Home />} />
+        </Route>
+        <Route path="/login" element={<Login />} />
+        <Route path="/register" element={<Register />} />
+
+        {/* Add more routes here as needed */}
+      </Routes>
+    </Router>
   );
 }
 
