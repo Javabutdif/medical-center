@@ -1,8 +1,14 @@
 import React from 'react';
+import { motion } from 'framer-motion'; // Import Framer Motion
 
 const Input = ({ type, name, placeholder, value, onChange, error }) => {
   return (
-    <div className="flex flex-col">
+    <motion.div
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      transition={{ duration: 0.5 }} // Add fade-in effect
+      className="flex flex-col"
+    >
       <input
         type={type}
         name={name}
@@ -12,7 +18,7 @@ const Input = ({ type, name, placeholder, value, onChange, error }) => {
         className={`p-2 border ${error ? 'border-red-500' : 'border-gray-300'} rounded-md`}
       />
       {error && <p className="text-red-500 text-sm">{error}</p>}
-    </div>
+    </motion.div>
   );
 };
 

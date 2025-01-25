@@ -4,13 +4,11 @@ import { Outlet } from "react-router-dom";
 
 const LandingLayout = () => {
   return (
-    <>
-      <LandingNavBar />
-
-      <main className="overflow-hidden">
+    <div className="min-h-screen bg-gradient-to-b from-secondary to-200% to-white from-60% ">
+      <main className="overflow-hidden flex items-start">
         <Outlet />
       </main>
-    </>
+    </div>
   );
 };
 
