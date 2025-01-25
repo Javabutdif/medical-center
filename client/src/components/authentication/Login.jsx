@@ -26,6 +26,7 @@ const Login = () => {
     if (Object.keys(errors).length === 0) {
       alert(await login(username, password));
       showToast("success", "Login Successful");
+      navigate("/dashboard");
     } else {
       setErrors(errors);
     }

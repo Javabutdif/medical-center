@@ -1,14 +1,14 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
 import { FaTachometerAlt, FaUser, FaFileMedical, FaCog, FaLifeRing, FaSignOutAlt, FaHome, FaBullhorn, FaVials, FaSearch, FaUpload, FaClipboard } from 'react-icons/fa' // Import the icons
-import { motion } from 'framer-motion' // Import Framer Motion
 import logo from '../../../public/south.logo.jpg'
 
-const DashboardNavBar = ({ isAdmin }) => {
+const DashboardAside = ({ isOpen, toggle, isAdmin }) => {
   return (
-    <aside className='fixed w-72 flex flex-col justify-between h-full bg-accent text-primary'>
-      <div className='p-4'>
-        <Link to="/" className='flex gap-2 text-xs items-center font-bold font-heading uppercase tracking-wide'>
+    <aside className={`fixed md:w-72 ${isOpen ? 'w-72' : 'w-0'} flex flex-col justify-between h-full bg-accent text-primary transition-width duration-300 z-20 shadow-2xl`}>
+      
+      <div className={`p-4 ${isOpen ? 'block' : 'hidden'} md:block`}>
+        <Link to="/" className='flex gap-2 text-[0.6rem] md:text-xs items-center font-bold font-heading uppercase tracking-wide'>
           <img
             src={logo}
             className="w-16 h-14 inline-block self-center rounded-full "
@@ -100,12 +100,12 @@ const DashboardNavBar = ({ isAdmin }) => {
           </ul>
         </nav>
       </div>
-      <div className='mt-8 bg-secondary p-4'>
+      <div className={`mt-8 bg-secondary text-accent p-4 ${isOpen ? 'block' : 'hidden'} md:block`}>
         <div className='flex flex-col items-start'>
           <span className='font-bold'>John Doe</span>
           <span className='text-sm'>john.doe@example.com</span>
         </div>
-        <button className='mt-4 bg-secondary text-accent py-2 px-4 rounded flex items-center gap-2 hover:bg-primary'>
+        <button className='w-full text-center mt-4 bg-secondary text-accent py-2 px-4 rounded flex items-center gap-2 hover:bg-primary'>
           <FaSignOutAlt />
           <span>Logout</span>
         </button>
@@ -114,4 +114,4 @@ const DashboardNavBar = ({ isAdmin }) => {
   )
 }
 
-export default DashboardNavBar
+export default DashboardAside
