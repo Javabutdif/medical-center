@@ -13,8 +13,11 @@ module.exports = {
         dark: '#5E503F', // Dark brown color
       },
       fontFamily: {
-        anton: ['Anton', 'sans-serif'],
-        roboto: ['Roboto', 'sans-serif'],
+        heading: ['Poppins', 'sans-serif'], // Use Poppins for headings
+        body: ['Roboto', 'sans-serif'], // Use Roboto for body text
+      },
+      minHeight: {
+        'screen/2': 'calc(100vh - 300px)',
       },
     },
   },

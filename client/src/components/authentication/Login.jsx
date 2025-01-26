@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
+import { motion } from "framer-motion"; // Import Framer Motion
 import Input from "../common/Input"; // Import the reusable Input component
 import bgImage from "../../assets/Slider-1-1-Photoroom (1).png";
 import { login } from "../../api/login";
@@ -25,6 +26,7 @@ const Login = () => {
     if (Object.keys(errors).length === 0) {
       alert(await login(username, password));
       showToast("success", "Login Successful");
+      navigate("/dashboard");
     } else {
       setErrors(errors);
     }
@@ -35,11 +37,22 @@ const Login = () => {
   };
 
   return (
-    <div className="min-h-screen overflow-hidden relative flex flex-col justify-center md:bg-gradient-to-r from-white to-30% to-secondary from-60% bg-background text-foreground font-open-sans">
+    <motion.div
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      exit={{ opacity: 0 }}
+      transition={{ duration: 0.5 }} // Update transition to fade-in effect
+      className="min-h-screen overflow-hidden relative flex flex-col justify-center bg-background text-foreground font-body"
+    >
       <div className="w-full min-h-screen max-w-[900px] flex mx-auto justify-center items-center relative">
-        <div className="w-full md:max-w-md p-6 space-y-4">
+        <motion.div
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ duration: 0.5 }} // Update transition to fade-in effect
+          className="w-full md:max-w-md p-6 space-y-4"
+        >
           <div className="flex flex-col items-start space-y-4">
-            <div className="font-roboto-slab flex items-center gap-2 uppercase font-bold text-[0.7rem] leading-none ">
+            <div className="font-roboto-slab flex items-center gap-2 uppercase font-bold text-[0.7rem] leading-none font-heading">
               <img
                 src="/south.logo.jpg"
                 className="w-12 h-12 inline-block"
@@ -51,33 +64,39 @@ const Login = () => {
                 <p>Mount Grace Partner</p>
               </div>
             </div>
-            <h2 className="text-2xl font-bold text-center  text-primary">
+            <h2 className="text-2xl font-bold text-center  text-primary font-heading">
               Login
             </h2>
           </div>
           <form onSubmit={handleSubmit} className="space-y-3">
-            <Input
-              type="text"
-              name="username"
-              placeholder="Username"
-              value={username}
-              onChange={(e) => setUsername(e.target.value)}
-              error={errors.username}
-            />
-            {errors.username && (
-              <p className="text-destructive text-xs mt-1">{errors.username}</p>
-            )}
-            <Input
-              type="password"
-              name="password"
-              placeholder="Password"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-              error={errors.password}
-            />
-            {errors.password && (
-              <p className="text-destructive text-xs mt-1">{errors.password}</p>
-            )}
+            <div>
+              <Input
+                type="text"
+                name="username"
+                id="username"
+                placeholder="Username"
+                value={username}
+                onChange={(e) => setUsername(e.target.value)}
+                error={errors.username}
+              />
+              {errors.username && (
+                <p className="text-destructive text-xs mt-1">{errors.username}</p>
+              )}
+            </div>
+            <div>
+              <Input
+                type="password"
+                name="password"
+                id="password"
+                placeholder="Password"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                error={errors.password}
+              />
+              {errors.password && (
+                <p className="text-destructive text-xs mt-1">{errors.password}</p>
+              )}
+            </div>
             <div className="flex items-center justify-between">
               <div className="flex items-center">
                 <input
@@ -114,16 +133,9 @@ const Login = () => {
               Register
             </span>
           </p>
-        </div>
-        <div className="flex-1 relative">
-          <img
-            src={bgImage}
-            className="absolute rounded-full w-full h-full bottom-0 -right-1/2"
-            alt=" "
-          />
-        </div>
+        </motion.div>
       </div>
-    </div>
+    </motion.div>
   );
 };
 
