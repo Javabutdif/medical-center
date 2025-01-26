@@ -7,6 +7,7 @@ const bodyParser = require("body-parser");
 const dotenv = require("dotenv");
 const admin_route = require("./router/admin_route");
 const login_route = require("./router/login_route");
+const register_route = require("./router/register_route");
 require("dotenv").config();
 
 app.use(express.json());
@@ -30,6 +31,7 @@ mongoose
 //Endpoints
 app.use("/api", admin_route);
 app.use("/api", login_route);
+app.use("/api", register_route);
 
 app.listen(PORT, () => {
   console.log(`Server is running on http://localhost:${PORT}`);

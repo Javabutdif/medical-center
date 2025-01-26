@@ -24,9 +24,10 @@ const Login = () => {
     e.preventDefault();
     const errors = validate();
     if (Object.keys(errors).length === 0) {
-      alert(await login(username, password));
-      showToast("success", "Login Successful");
-      navigate("/dashboard");
+      if (await login(username, password)) {
+        showToast("success", "Login Successful");
+        navigate("/dashboard");
+      }
     } else {
       setErrors(errors);
     }
@@ -80,7 +81,9 @@ const Login = () => {
                 error={errors.username}
               />
               {errors.username && (
-                <p className="text-destructive text-xs mt-1">{errors.username}</p>
+                <p className="text-destructive text-xs mt-1">
+                  {errors.username}
+                </p>
               )}
             </div>
             <div>
@@ -94,7 +97,9 @@ const Login = () => {
                 error={errors.password}
               />
               {errors.password && (
-                <p className="text-destructive text-xs mt-1">{errors.password}</p>
+                <p className="text-destructive text-xs mt-1">
+                  {errors.password}
+                </p>
               )}
             </div>
             <div className="flex items-center justify-between">
