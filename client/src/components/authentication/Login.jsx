@@ -6,7 +6,8 @@ import bgImage from "../../assets/Slider-1-1-Photoroom (1).png";
 import { login } from "../../api/login";
 import { showToast } from "../helper/alert_helper";
 
-const Login = () => {
+const Login = ({ role  }) => {
+  console.log(role);
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [keepSignedIn, setKeepSignedIn] = useState(false);
@@ -24,9 +25,15 @@ const Login = () => {
     e.preventDefault();
     const errors = validate();
     if (Object.keys(errors).length === 0) {
-      if (await login(username, password)) {
+      const user = await login(username, password);
+      console.log(user)
+      if (user) {
         showToast("success", "Login Successful");
-        navigate("/dashboard");
+        if (role === "Admin") {
+          navigate("/admin/home");
+        } else {
+          navigate("/patient/dashboard");
+        }
       }
     } else {
       setErrors(errors);
