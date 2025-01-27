@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react"; // Add useState import
 import { Link } from "react-router-dom";
 import {
   FaTachometerAlt,
@@ -13,16 +13,26 @@ import {
   FaSearch,
   FaUpload,
   FaClipboard,
+  FaFlask, // Add this import for the new icon
+  FaXRay, // Add this import for the new icon
+  FaChevronDown // Add this import for the dropdown icon
 } from "react-icons/fa"; // Import the icons
 import logo from "../../../public/south.logo.jpg";
 import { showToast } from "../helper/alert_helper";
 import { removeAuthentication } from "../../route/authentication";
 
 const DashboardAside = ({ isOpen, toggle, isAdmin, information }) => {
+  const [isDropdownOpen, setIsDropdownOpen] = useState(false); // Add state for dropdown
+
   const handleLogout = () => {
     showToast("success", "Logout successfully");
     removeAuthentication();
   };
+
+  const toggleDropdown = () => {
+    setIsDropdownOpen(!isDropdownOpen);
+  };
+
   return (
     <aside
       className={`fixed md:w-72 ${
@@ -66,33 +76,36 @@ const DashboardAside = ({ isOpen, toggle, isAdmin, information }) => {
                   </Link>
                 </li>
                 <li>
-                  <Link
-                    to="/admin/healthcare-record"
-                    className="text-primary flex items-center gap-2 hover:text-secondary"
+                  <div
+                    className="text-primary flex items-center gap-2 hover:text-secondary cursor-pointer"
+                    onClick={toggleDropdown}
                   >
                     <FaVials />
                     <span>Healthcare Record</span>
-                  </Link>
-                  <ul className="ml-6 mt-2 flex flex-col gap-2">
-                    <li>
-                      <Link
-                        to="/admin/healthcare-record/laboratory"
-                        className="text-primary flex items-center gap-2 hover:text-secondary"
-                      >
-                        <FaSearch />
-                        <span>Laboratory</span>
-                      </Link>
-                    </li>
-                    <li>
-                      <Link
-                        to="/admin/healthcare-record/special-imaging"
-                        className="text-primary flex items-center gap-2 hover:text-secondary"
-                      >
-                        <FaUpload />
-                        <span>Special Imaging</span>
-                      </Link>
-                    </li>
-                  </ul>
+                    <FaChevronDown className={`transition-transform ${isDropdownOpen ? 'rotate-180' : ''}`} /> {/* Add dropdown icon */}
+                  </div>
+                  {isDropdownOpen && (
+                    <ul className="ml-6 mt-2 flex flex-col gap-2">
+                      <li>
+                        <Link
+                          to="/admin/healthcare-record/laboratory"
+                          className="text-primary flex items-center gap-2 hover:text-secondary"
+                        >
+                          <FaFlask />
+                          <span>Laboratory</span>
+                        </Link>
+                      </li>
+                      <li>
+                        <Link
+                          to="/admin/healthcare-record/special-imaging"
+                          className="text-primary flex items-center gap-2 hover:text-secondary"
+                        >
+                          <FaXRay />
+                          <span>Special Imaging</span>
+                        </Link>
+                      </li>
+                    </ul>
+                  )}
                 </li>
                 <li>
                   <Link
@@ -108,7 +121,7 @@ const DashboardAside = ({ isOpen, toggle, isAdmin, information }) => {
               <>
                 <li>
                   <Link
-                    to="/dashboard"
+                    to="dashboard"
                     className="text-primary flex items-center gap-2 hover:text-secondary"
                   >
                     <FaTachometerAlt />
@@ -117,7 +130,7 @@ const DashboardAside = ({ isOpen, toggle, isAdmin, information }) => {
                 </li>
                 <li>
                   <Link
-                    to="/profile"
+                    to="profile"
                     className="text-primary flex items-center gap-2 hover:text-secondary"
                   >
                     <FaUser />
@@ -126,7 +139,7 @@ const DashboardAside = ({ isOpen, toggle, isAdmin, information }) => {
                 </li>
                 <li>
                   <Link
-                    to="/medical-report"
+                    to="medical-report"
                     className="text-primary flex items-center gap-2 hover:text-secondary"
                   >
                     <FaFileMedical />
@@ -135,7 +148,7 @@ const DashboardAside = ({ isOpen, toggle, isAdmin, information }) => {
                 </li>
                 <li className="mt-auto">
                   <Link
-                    to="/settings"
+                    to="settings"
                     className="text-primary flex items-center gap-2 hover:text-secondary"
                   >
                     <FaCog />
@@ -144,7 +157,7 @@ const DashboardAside = ({ isOpen, toggle, isAdmin, information }) => {
                 </li>
                 <li>
                   <Link
-                    to="/support"
+                    to="support"
                     className="text-primary flex items-center gap-2 hover:text-secondary"
                   >
                     <FaLifeRing />
