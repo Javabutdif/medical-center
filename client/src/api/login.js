@@ -18,7 +18,9 @@ export const login = async (username, password) => {
       }
     );
     sessionStorage.setItem("Token", response.data.token);
-    return response.status === 200 ? true : false;
+    return response.status === 200
+      ? { response: true, role: response.data.role }
+      : false;
   } catch (error) {
     if (error.response && error.response.data) {
       return false;

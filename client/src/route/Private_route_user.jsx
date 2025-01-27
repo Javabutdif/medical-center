@@ -1,13 +1,14 @@
 import { server_connection } from "../connections/server_connection";
-
+import { setInformationData } from "../route/authentication";
 import axios from "axios";
 import { React, useState, useEffect } from "react";
 import { Navigate } from "react-router-dom";
 
-const Private_route_user = ({ element: Component }) => {
+const Private_route_user = ({ element: Component, setRole }) => {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [loading, setLoading] = useState(true);
   const token = sessionStorage.getItem("Token");
+
   const checkAuthentication = async () => {
     try {
       const response = await axios.get(
@@ -18,7 +19,9 @@ const Private_route_user = ({ element: Component }) => {
           },
         }
       );
+
       setInformationData(response.data.user, response.data.role);
+
       if (response.data.role === "User") {
         setIsAuthenticated(true);
       } else {
@@ -31,6 +34,7 @@ const Private_route_user = ({ element: Component }) => {
       setLoading(false);
     }
   };
+
   useEffect(() => {
     checkAuthentication();
   }, []);

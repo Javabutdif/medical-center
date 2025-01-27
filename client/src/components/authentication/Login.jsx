@@ -6,7 +6,7 @@ import bgImage from "../../assets/Slider-1-1-Photoroom (1).png";
 import { login } from "../../api/login";
 import { showToast } from "../helper/alert_helper";
 
-const Login = ({ role  }) => {
+const Login = ({ role }) => {
   console.log(role);
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
@@ -26,10 +26,10 @@ const Login = ({ role  }) => {
     const errors = validate();
     if (Object.keys(errors).length === 0) {
       const user = await login(username, password);
-      console.log(user)
+      console.log(user.role);
       if (user) {
         showToast("success", "Login Successful");
-        if (role === "Admin") {
+        if (user.role === "Admin") {
           navigate("/admin/home");
         } else {
           navigate("/patient/dashboard");

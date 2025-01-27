@@ -21,8 +21,8 @@ const Private_route_admin = ({ element: Component, setRole }) => {
       );
 
       setInformationData(response.data.user, response.data.role);
-      setRole(response.data.role);
-      if (response.data.role === "Admin" || response.data.role === "User") {
+      console.log(response.data);
+      if (response.data.role === "Admin") {
         setIsAuthenticated(true);
       } else {
         setIsAuthenticated(false);

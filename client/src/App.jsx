@@ -11,6 +11,7 @@ import DashboardLayout from "./components/Layout/DashboardLayout";
 
 //PrivateRoute
 import Private_route_admin from "./route/private_route_admin";
+import Private_route_user from "./route/private_route_user";
 
 import { useState } from "react";
 import Profile from "./pages/patient/Profile";
@@ -27,21 +28,36 @@ function App() {
         <Route path="/" element={<LandingLayout />}>
           <Route index element={<Home />} />
         </Route>
-        <Route path="/login" element={<Login role={role} />} />
+        <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
         <Route
           path="admin/home"
-          element={<Private_route_admin element={AdminHome} setRole={setRole} />}
+          element={<Private_route_admin element={AdminHome} />}
         />
         <Route
           path="patient"
-          element={<Private_route_admin element={DashboardLayout} setRole={setRole} />}
+          element={<Private_route_user element={DashboardLayout} />}
         >
-          <Route path="dashboard" element={<Dashboard />} />
-          <Route path="profile" element={<Profile />} />
-          <Route path="medical-report" element={<MedicalReport />} />
-          <Route path="settings" element={<Settings />} />
-          <Route path="support" element={<Support />} />
+          <Route
+            path="dashboard"
+            element={<Private_route_user element={Dashboard} />}
+          />
+          <Route
+            path="profile"
+            element={<Private_route_user element={Profile} />}
+          />
+          <Route
+            path="medical-report"
+            element={<Private_route_user element={MedicalReport} />}
+          />
+          <Route
+            path="settings"
+            element={<Private_route_user element={Settings} />}
+          />
+          <Route
+            path="support"
+            element={<Private_route_user element={Support} />}
+          />
         </Route>
         {/* Add more routes here as needed */}
       </Routes>
