@@ -2,9 +2,9 @@ import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { motion } from "framer-motion"; // Import Framer Motion
 import Input from "../common/Input"; // Import the reusable Input component
-import bgImage from "../../assets/Slider-1-1-Photoroom (1).png";
 import { login } from "../../api/login";
 import { showToast } from "../helper/alert_helper";
+import { useSnackbar } from 'notistack'; // Import useSnackbar
 
 const Login = ({ role }) => {
   console.log(role);
@@ -13,6 +13,7 @@ const Login = ({ role }) => {
   const [keepSignedIn, setKeepSignedIn] = useState(false);
   const [errors, setErrors] = useState({});
   const navigate = useNavigate();
+  const { enqueueSnackbar, closeSnackbar } = useSnackbar(); // Initialize useSnackbar
 
   const validate = () => {
     const errors = {};
@@ -28,12 +29,15 @@ const Login = ({ role }) => {
       const user = await login(username, password);
       console.log(user.role);
       if (user) {
-        showToast("success", "Login Successful");
+        const key = showToast(enqueueSnackbar, 'success', 'Login Successful'); // Use enqueueSnackbar
+        setTimeout(() => closeSnackbar(key), 2000); // Remove toast after 2 seconds
         if (user.role === "Admin") {
-          navigate("/admin/home");
+          navigate("/admin/");
         } else {
-          navigate("/patient/dashboard");
+          navigate("/patient/");
         }
+      } else {
+        showToast(enqueueSnackbar, 'error', 'Login Failed'); // Show error toast
       }
     } else {
       setErrors(errors);

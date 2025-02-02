@@ -1,5 +1,5 @@
-import React, { useState } from "react"; // Add useState import
-import { Link } from "react-router-dom";
+import React, { useState } from "react";
+import { Link, useLocation } from "react-router-dom";
 import {
   FaTachometerAlt,
   FaUser,
@@ -10,28 +10,32 @@ import {
   FaHome,
   FaBullhorn,
   FaVials,
-  FaSearch,
-  FaUpload,
-  FaClipboard,
-  FaFlask, // Add this import for the new icon
-  FaXRay, // Add this import for the new icon
-  FaChevronDown // Add this import for the dropdown icon
-} from "react-icons/fa"; // Import the icons
+  FaFlask,
+  FaXRay,
+  FaChevronDown,
+  FaClipboard // Add this import for the missing icon
+} from "react-icons/fa";
 import logo from "../../../public/south.logo.jpg";
 import { showToast } from "../helper/alert_helper";
 import { removeAuthentication } from "../../route/authentication";
+import { useSnackbar } from 'notistack'; // Import useSnackbar
 
-const DashboardAside = ({ isOpen, toggle, isAdmin, information }) => {
-  const [isDropdownOpen, setIsDropdownOpen] = useState(false); // Add state for dropdown
+const DashboardAside = ({ isOpen, toggle, isAdmin, informatio }) => {
+  const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+  const location = useLocation(); // Get the current location
+  const { enqueueSnackbar } = useSnackbar(); // Initialize useSnackbar
 
   const handleLogout = () => {
-    showToast("success", "Logout successfully");
+    showToast(enqueueSnackbar, 'success', 'Logout successfully'); // Use enqueueSnackbar
     removeAuthentication();
   };
 
   const toggleDropdown = () => {
     setIsDropdownOpen(!isDropdownOpen);
   };
+
+  const isActive = (path) => location.pathname === path; // Check if the path is active
+  console.log(isActive())
 
   return (
     <aside
@@ -59,20 +63,13 @@ const DashboardAside = ({ isOpen, toggle, isAdmin, information }) => {
               <>
                 <li>
                   <Link
-                    to="/admin/home"
-                    className="text-primary flex items-center gap-2 hover:text-secondary"
+                    to=""
+                    className={`text-primary flex items-center gap-2 hover:text-secondary ${
+                      isActive("") ? "text-secondary" : ""
+                    }`}
                   >
                     <FaHome />
                     <span>Home</span>
-                  </Link>
-                </li>
-                <li>
-                  <Link
-                    to="/admin/announcements"
-                    className="text-primary flex items-center gap-2 hover:text-secondary"
-                  >
-                    <FaBullhorn />
-                    <span>Announcements</span>
                   </Link>
                 </li>
                 <li>
@@ -82,14 +79,16 @@ const DashboardAside = ({ isOpen, toggle, isAdmin, information }) => {
                   >
                     <FaVials />
                     <span>Healthcare Record</span>
-                    <FaChevronDown className={`transition-transform ${isDropdownOpen ? 'rotate-180' : ''}`} /> {/* Add dropdown icon */}
+                    <FaChevronDown className={`transition-transform ${isDropdownOpen ? 'rotate-180' : ''}`} />
                   </div>
                   {isDropdownOpen && (
                     <ul className="ml-6 mt-2 flex flex-col gap-2">
                       <li>
                         <Link
                           to="/admin/healthcare-record/laboratory"
-                          className="text-primary flex items-center gap-2 hover:text-secondary"
+                          className={`text-primary flex items-center gap-2 hover:text-secondary ${
+                            isActive("/admin/healthcare-record/laboratory") ? "text-secondary" : ""
+                          }`}
                         >
                           <FaFlask />
                           <span>Laboratory</span>
@@ -98,7 +97,9 @@ const DashboardAside = ({ isOpen, toggle, isAdmin, information }) => {
                       <li>
                         <Link
                           to="/admin/healthcare-record/special-imaging"
-                          className="text-primary flex items-center gap-2 hover:text-secondary"
+                          className={`text-primary flex items-center gap-2 hover:text-secondary ${
+                            isActive("/admin/healthcare-record/special-imaging") ? "text-secondary" : ""
+                          }`}
                         >
                           <FaXRay />
                           <span>Special Imaging</span>
@@ -109,8 +110,10 @@ const DashboardAside = ({ isOpen, toggle, isAdmin, information }) => {
                 </li>
                 <li>
                   <Link
-                    to="/admin/px-profile"
-                    className="text-primary flex items-center gap-2 hover:text-secondary"
+                    to="/admin/patient-profile"
+                    className={`text-primary flex items-center gap-2 hover:text-secondary ${
+                      isActive("/admin/patient-profile") ? "text-secondary" : ""
+                    }`}
                   >
                     <FaClipboard />
                     <span>Patient Profile</span>
@@ -121,8 +124,10 @@ const DashboardAside = ({ isOpen, toggle, isAdmin, information }) => {
               <>
                 <li>
                   <Link
-                    to="dashboard"
-                    className="text-primary flex items-center gap-2 hover:text-secondary"
+                    to=""
+                    className={`text-primary flex items-center gap-2 hover:text-secondary ${
+                      isActive("") ? "text-secondary" : ""
+                    }`}
                   >
                     <FaTachometerAlt />
                     <span>Dashboard</span>
@@ -131,7 +136,9 @@ const DashboardAside = ({ isOpen, toggle, isAdmin, information }) => {
                 <li>
                   <Link
                     to="profile"
-                    className="text-primary flex items-center gap-2 hover:text-secondary"
+                    className={`text-primary flex items-center gap-2 hover:text-secondary ${
+                      isActive("profile") ? "text-secondary" : ""
+                    }`}
                   >
                     <FaUser />
                     <span>My Profile</span>
@@ -140,7 +147,9 @@ const DashboardAside = ({ isOpen, toggle, isAdmin, information }) => {
                 <li>
                   <Link
                     to="medical-report"
-                    className="text-primary flex items-center gap-2 hover:text-secondary"
+                    className={`text-primary flex items-center gap-2 hover:text-secondary ${
+                      isActive("medical-report") ? "text-secondary" : ""
+                    }`}
                   >
                     <FaFileMedical />
                     <span>Medical Report</span>
@@ -149,7 +158,9 @@ const DashboardAside = ({ isOpen, toggle, isAdmin, information }) => {
                 <li className="mt-auto">
                   <Link
                     to="settings"
-                    className="text-primary flex items-center gap-2 hover:text-secondary"
+                    className={`text-primary flex items-center gap-2 hover:text-secondary ${
+                      isActive("settings") ? "text-secondary" : ""
+                    }`}
                   >
                     <FaCog />
                     <span>Settings</span>
@@ -158,7 +169,9 @@ const DashboardAside = ({ isOpen, toggle, isAdmin, information }) => {
                 <li>
                   <Link
                     to="support"
-                    className="text-primary flex items-center gap-2 hover:text-secondary"
+                    className={`text-primary flex items-center gap-2 hover:text-secondary ${
+                      isActive("support") ? "text-secondary" : ""
+                    }`}
                   >
                     <FaLifeRing />
                     <span>Support</span>
