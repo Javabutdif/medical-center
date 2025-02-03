@@ -21,7 +21,8 @@ const MedicalReport = () => {
     { path: 'description', label: 'exam description' },
     { path: 'date', label: 'exam date' },
     { path: 'section', label: 'section' },
-    { path: 'results', label: 'results' }
+    { path: 'results', label: 'results' },
+    { path: 'actions', label: 'Actions' }
   ];
 
   const data = [
@@ -31,7 +32,7 @@ const MedicalReport = () => {
 
   const filteredData = data.filter(item =>
     columns.some(column =>
-      item[column.path].toString().toLowerCase().includes(value.toLowerCase())
+      item[column.path]?.toString().toLowerCase().includes(value.toLowerCase())
     )
   );
 
@@ -44,7 +45,7 @@ const MedicalReport = () => {
         </div>
         <Search ref={searchRef} style={"sm:self-end"} onSearch={handleSearch} />
       </div>
-      <Table columns={columns} data={filteredData} buttonText="View Results" />
+      <Table columns={columns} data={filteredData} buttonText="View" />
     </div>
   );
 };
