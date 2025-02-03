@@ -41,17 +41,22 @@ router.post("/login", async (req, res) => {
     }
 
     const user =
-      role === "Admin"
-        ? { name: user1.name, department: user1.department }
-        : { name: `${user1.firstname} ${user1.middlename} ${user1.lastname}` };
+			role === "Admin"
+				? { name: user1.name, department: user1.department }
+				: {
+						name: `${user1.firstname} ${user1.middlename} ${user1.lastname}`,
+						email: user1.email,
+						patient_id: user1.patient_id,
+				  };
 
-    const token = generateToken(user, role);
+		const token = generateToken(user, role);
 
-    return res.status(200).json({
-      message: "Login successful.",
-      token,
-      role,
-    });
+		return res.status(200).json({
+			message: "Login successful.",
+			token,
+			user,
+			role,
+		});
   } catch (error) {
     console.error("Login error:", error);
     return res

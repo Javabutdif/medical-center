@@ -13,8 +13,8 @@ const authenticateToken = (req, res, next) => {
     if (err) {
       return res.status(403).json({ message: "Forbidden" });
     }
-
-    req.user = decoded.name || null;
+    console.log(decoded);
+		req.user = decoded || null;
     req.role = decoded.role || null;
     next();
   });

@@ -7,15 +7,17 @@ export const getRoute = () => {
 };
 
 export const setInformationData = (data, role) => {
-  storedData = data;
-  storedRole = role;
+	storedData = data;
+	storedRole = role;
 };
 
 export const getInformationData = () => {
-  return {
-    name: storedData?.name || null,
-    department: storedData?.department || null,
-  };
+	return {
+		name: storedData?.name || null,
+		department: storedData?.department || null,
+		email: storedData?.email || null,
+		patient_id: storedData?.patient_id || null,
+	};
 };
 export const removeAuthentication = () => {
   sessionStorage.removeItem("Token");
