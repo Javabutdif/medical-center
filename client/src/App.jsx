@@ -11,8 +11,8 @@ import AdminHome from "./pages/admin/Home";
 import DashboardLayout from "./components/Layout/DashboardLayout";
 
 // PrivateRoute
-import Private_route_admin from "./route/private_route_admin";
-import Private_route_user from "./route/private_route_user";
+import Private_route_admin from "./route/Private_route_admin";
+import Private_route_user from "./route/Private_route_user";
 import Profile from "./pages/patient/Profile";
 import MedicalReport from "./pages/patient/MedicalReport";
 import Settings from "./pages/patient/Settings";

@@ -20,9 +20,9 @@ export const getInformationData = () => {
 	};
 };
 export const removeAuthentication = () => {
-  sessionStorage.removeItem("Token");
-  sessionStorage.removeItem("Data");
-  sessionStorage.removeItem("hasReloaded");
-  storedData = null;
-  storedRole = null;
+	sessionStorage.removeItem("Token");
+	sessionStorage.removeItem("Data");
+
+	storedData = null;
+	storedRole = null;
 };

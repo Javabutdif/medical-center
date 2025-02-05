@@ -27,18 +27,19 @@ const Login = ({ role }) => {
     const errors = validate();
     if (Object.keys(errors).length === 0) {
       const user = await login(username, password);
-      console.log(user.role);
+     
       if (user) {
-        const key = showToast(enqueueSnackbar, 'success', 'Login Successful'); // Use enqueueSnackbar
-        setTimeout(() => closeSnackbar(key), 2000); // Remove toast after 2 seconds
-        if (user.role === "Admin") {
-          navigate("/admin/");
-        } else {
-          navigate("/patient/");
-        }
-      } else {
-        showToast(enqueueSnackbar, 'error', 'Login Failed'); // Show error toast
-      }
+				const key = showToast(enqueueSnackbar, "success", "Login Successful"); // Use enqueueSnackbar
+				setTimeout(() => closeSnackbar(key), 2000); // Remove toast after 2 seconds
+				if (user.role === "Admin") {
+					console.log("This is true");
+					navigate("/admin/");
+				} else {
+					navigate("/patient/");
+				}
+			} else {
+				showToast(enqueueSnackbar, "error", "Login Failed"); // Show error toast
+			}
     } else {
       setErrors(errors);
     }

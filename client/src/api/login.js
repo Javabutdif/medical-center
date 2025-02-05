@@ -18,7 +18,7 @@ export const login = async (username, password) => {
 				},
 			}
 		);
-		
+		console.log("login api" + response.data.token);
 		sessionStorage.setItem("Token", response.data.token);
 		return response.status === 200
 			? { response: true, role: response.data.role }
