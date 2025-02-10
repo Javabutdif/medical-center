@@ -13,19 +13,14 @@ const authenticateToken = (req, res, next) => {
   }
 
   jwt.verify(token, token_key, (err, decoded) => {
-    console.log("Error:", err);
-    console.log("Token Key:", token_key);
-    console.log("Token:", token);
-    console.log("Decoded:", decoded);
+		if (err) {
+			return res.status(403).json({ message: "Forbidden" });
+		}
 
-    if (err) {
-      return res.status(403).json({ message: "Forbidden" });
-    }
-
-    req.user = decoded || null;
-    req.role = decoded.role || null;
-    next();
-  });
+		req.user = decoded || null;
+		req.role = decoded.role || null;
+		next();
+	});
 };
 
 module.exports = authenticateToken;

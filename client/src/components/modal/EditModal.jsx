@@ -127,10 +127,10 @@ const EditModal = ({ isOpen, onClose, patient, onSave }) => {
             <label className='block text-dark mb-2 font-body'>Mobile Number</label>
             <Input 
               type='text'
-              name='mobileNumber'
-              value={formData.mobileNumber || ''}
+              name='mobile_number'
+              value={formData.mobile_number || ''}
               onChange={handleChange}
-              error={errors.mobileNumber}
+              error={errors.mobile_number}
               className='w-full px-3 py-2 border border-muted rounded'
             />
           </div>
