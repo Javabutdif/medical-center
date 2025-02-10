@@ -41,13 +41,13 @@ const DashboardAside = ({ isOpen, toggle, isAdmin, informatio }) => {
 
 	return (
 		<aside
-			className={`fixed md:w-72 ${
+			className={`fixed 2xl:w-72 ${
 				isOpen ? "w-72" : "w-0"
 			} flex flex-col justify-between h-full bg-accent text-primary transition-width duration-300 z-20 shadow-2xl`}>
-			<div className={`p-4 ${isOpen ? "block" : "hidden"} md:block`}>
+			<div className={`p-4 ${isOpen ? "block" : "hidden"} 2xl:block`}>
 				<Link
 					to="/"
-					className="flex gap-2 text-[0.6rem] md:text-xs items-center font-bold font-heading uppercase tracking-wide">
+					className="flex gap-2 text-[0.6rem] 2xl:text-xs items-center font-bold font-heading uppercase tracking-wide">
 					<img
 						src={logo}
 						className="w-16 h-14 inline-block self-center rounded-full "
@@ -183,7 +183,7 @@ const DashboardAside = ({ isOpen, toggle, isAdmin, informatio }) => {
 			<div
 				className={`mt-8 bg-secondary text-accent p-4 ${
 					isOpen ? "block" : "hidden"
-				} md:block`}>
+				} 2xl:block`}>
 				<div className="flex flex-col items-start">
 					<span className="font-bold">{user.name}</span>
 					<span className="text-sm">{user.email}</span>

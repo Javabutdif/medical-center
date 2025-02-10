@@ -1,30 +1,18 @@
 import React from 'react'
 
-const TableHeader = ({ header, onSort, sortColumn }) => {
-  const raiseSort = (path) => {
-    if (sortColumn.path === path) {
-      onSort({ path, order: sortColumn.order === 'asc' ? 'desc' : 'asc' })
-    } else {
-      onSort({ path, order: 'asc' })
-    }
-  }
-
-  const renderSortIcon = (column) => {
-    if (column !== sortColumn.path) return null
-    if (sortColumn.order === 'asc') return <i className="fa fa-sort-asc"></i>
-    return <i className="fa fa-sort-desc"></i>
-  }
-
+const TableHeader = ({ columns }) => {
   return (
-    <thead className="bg-gray-100 text-left capitalize font-heading">
+    <thead className="bg-secondary text-accent border-b-2 border-secondary font-heading">
       <tr>
-        {header.map((title, index) => (
-          <th 
-            key={index} 
-            className={`select-none     border-b border-gray-300 ${title === 'results' ? 'px-2 py-1 text-sm w-1/12 sm:px-4 sm:py-2 sm:text-base sm:w-1/6' : 'p-4 text-base w-1/4 sm:p-6 sm:text-lg sm:w-1/3'} font-semibold cursor-pointer`}
-            onClick={() => raiseSort(title)}
+        {columns.map(column => (
+          <th
+            key={column.path || column.key}
+            className={`p-4 text-left font-semibold ${column.key === 'actions' ? 'flex items-center justify-center w-[1%] text-center' : 'w-auto'}`}
           >
-            {title} {renderSortIcon(title)}
+            <div className="flex items-center">
+              {column.icon && <span className="mr-2">{column.icon}</span>}
+              {column.label}
+            </div>
           </th>
         ))}
       </tr>

@@ -1,36 +1,67 @@
-import React, { useState, forwardRef, useImperativeHandle } from 'react';
-import { FaSearch } from 'react-icons/fa';
+import React, { useState, useEffect } from 'react'
+import { FaSearch, FaTimes, FaSpinner } from 'react-icons/fa';
 
-const Search = forwardRef(({ onSearch, style }, ref) => {
+const useDebounce = (value, delay) => {
+  const [debouncedValue, setDebouncedValue] = useState(value);
+
+  useEffect(() => {
+    const handler = setTimeout(() => {
+      setDebouncedValue(value);
+    }, delay);
+
+    return () => {
+      clearTimeout(handler);
+    };
+  }, [value, delay]);
+
+  return debouncedValue;
+};
+
+const Search = ({ placeholder, onSearch, isLoading }) => {
   const [query, setQuery] = useState('');
+  const debouncedQuery = useDebounce(query, 300);
 
   const handleInputChange = (e) => {
     setQuery(e.target.value);
-    if (onSearch) {
-      onSearch(e.target.value);
-    }
   };
 
-  useImperativeHandle(ref, () => ({
-    getSearchValue: () => query,
-  }));
+  const handleClear = () => {
+    setQuery('');
+  };
+
+  useEffect(() => {
+    if (onSearch) {
+      onSearch(debouncedQuery);
+    }
+  }, [debouncedQuery, onSearch]);
 
   return (
-    <div className={`flex items-center space-x-3 ${style}`}>
-      <div className="relative flex-grow">
-        <input
-          type="text"
-          value={query}
-          onChange={handleInputChange}
-          placeholder="Search..."
-          className="text-end w-full p-3 pr-10 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
-        />
+    <div className="relative">
+      <input 
+        type="text" 
+        placeholder={placeholder} 
+        value={query} 
+        onChange={handleInputChange} 
+        aria-label="Search"
+        className='w-full p-4 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-primary'
+      />
+      {query && (
+        <button 
+          onClick={handleClear} 
+          aria-label="Clear search"
+          className="absolute right-10 top-1/2 transform -translate-y-1/2 text-gray-400"
+          
+       >
+          <FaTimes />
+        </button>
+      )}
+      {isLoading ? (
+        <FaSpinner className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400 animate-spin" />
+      ) : (
         <FaSearch className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400" />
-      </div>
+      )}
     </div>
-  );
-});
+  )
+}
 
-Search.displayName = 'Search';
-
-export default Search;
+export default Search

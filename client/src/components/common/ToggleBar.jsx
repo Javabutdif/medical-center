@@ -3,7 +3,7 @@ import { motion } from 'framer-motion'
 
 const ToggleBar = ({ isOpen, toggle }) => {
   return (
-    <button type="button" className='md:hidden focus:outline-none relative z-30' onClick={toggle}>
+    <button type="button" className='2xl:hidden focus:outline-none relative z-30' onClick={toggle}>
       <motion.div
         initial={{ rotate: 0 }}
         animate={{ rotate: isOpen ? 45 : 0, y: isOpen ? 6 : 0 }}

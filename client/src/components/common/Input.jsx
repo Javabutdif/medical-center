@@ -1,7 +1,7 @@
 import React from 'react';
 import { motion } from 'framer-motion'; // Import Framer Motion
 
-const Input = ({ type, name, placeholder, value, onChange, error }) => {
+const Input = ({ type, name, placeholder, value, onChange, disabled, error }) => {
   return (
     <motion.div
       initial={{ opacity: 0 }}
@@ -16,6 +16,7 @@ const Input = ({ type, name, placeholder, value, onChange, error }) => {
         value={value}
         onChange={onChange}
         className={`p-2 border ${error ? 'border-red-500' : 'border-gray-300'} rounded-md`}
+        disabled={disabled}
       />
       {error && <p className="text-red-500 text-sm">{error}</p>}
     </motion.div>
