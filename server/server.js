@@ -9,9 +9,10 @@ const admin_route = require("./router/admin_route");
 const login_route = require("./router/login_route");
 const register_route = require("./router/register_route");
 require("dotenv").config();
+const path = require("path");
 
 app.use(express.json());
-
+app.use("/uploads", express.static(path.join(__dirname, "uploads")));
 app.use(bodyParser.json());
 app.use(
   cors({

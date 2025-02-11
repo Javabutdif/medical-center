@@ -70,32 +70,51 @@ import axios from "axios";
 			}
 		}
  };
+export const upload_picture = async (formData, id) => {
+	try {
+		const response = await axios.post(
+			`${server_connection()}/api/admin/upload-data/${id}`,
+			formData,
+			{
+				headers: {
+					"Content-Type": "multipart/form-data",
+					Authorization: `Bearer ${token}`,
+				},
+			}
+		);
+		if (response.status === 200) {
+			console.log(response.data.message);
+			return response.status === 200;
+		} else {
+			console.log(response.data.message);
+		}
+	} catch (error) {
+		console.error("Error:", error.response.data.message);
 
- export const upload_picture = async (data, id) => {
-		const formData = new FormData();
-		formData.append("dataImage", data);
+		return null;
+	}
+};
 
+
+ export const fetchAllLaboratory = async () => {
 		try {
-			const response = await axios.post(
-				`${Server_Connection()}/api/upload-data/${id}`,
-				formData,
+			const response = await axios.get(
+				`${server_connection()}/api/admin/get-all-laboratory`,
 				{
 					headers: {
-						"Content-Type": "multipart/form-data",
+						"Content-Type": "application/json",
 						Authorization: `Bearer ${token}`,
 					},
 				}
 			);
-			if (response.status === 200) {
-				console.log(response.data.message);
-			} else {
-				console.log(response.data.message);
-			}
-			console.log(response.data.message);
+			return response.status === 200 ? response.data.data : [];
 		} catch (error) {
-			console.error("Error:", error.response.data.message);
-			showToast("error", error.response.data.message);
-			return null;
+			if (error.response && error.response.data) {
+				return false;
+			} else {
+				console.log("error", "An error occurred");
+				return false;
+			}
 		}
  };
 
