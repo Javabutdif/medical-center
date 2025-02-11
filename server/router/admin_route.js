@@ -86,6 +86,7 @@ router.post(
 				image: path,
 				examDescription,
 				sectionType,
+				examDate: Date.now(),
 			});
 			uploadImageData.save();
 			if (uploadImageData) {
@@ -124,6 +125,7 @@ router.get("/admin/get-all-laboratory", authenticateToken, async (req, res) => {
 		res.status(500).json({ message: "Internal Server Error" });
 	}
 });
+
 
 module.exports = router;
 

@@ -74,11 +74,14 @@ const SpecialImaging = () => {
 							&times;
 						</button>
 						{selectedImage ? (
-							<img
-								src={selectedImage}
-								alt="Selected"
-								className="w-full h-auto rounded"
-							/>
+							<>
+								<a
+									href={selectedImage}
+									download
+									className="mt-4 block bg-blue-500 text-white py-2 px-4 text-center rounded hover:bg-blue-600">
+									Download File
+								</a>
+							</>
 						) : (
 							<p>No image available</p>
 						)}

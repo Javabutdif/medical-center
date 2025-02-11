@@ -11,6 +11,10 @@ const imageSchema = new Schema({
         type: String,
        
     },
+    examDate: {
+        type: Date,
+        
+    },
     examDescription: {
         type: String,
        
