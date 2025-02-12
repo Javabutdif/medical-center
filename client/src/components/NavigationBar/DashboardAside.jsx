@@ -165,16 +165,6 @@ const DashboardAside = ({ isOpen, toggle, isAdmin, informatio }) => {
 										<span>Settings</span>
 									</Link>
 								</li>
-								<li>
-									<Link
-										to="support"
-										className={`text-primary flex items-center gap-2 hover:text-secondary ${
-											isActive("support") ? "text-secondary" : ""
-										}`}>
-										<FaLifeRing />
-										<span>Support</span>
-									</Link>
-								</li>
 							</>
 						)}
 					</ul>

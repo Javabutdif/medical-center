@@ -70,12 +70,8 @@ const MedicalReport = () => {
 	);
 
 	return (
-		<div className="container mx-auto px-4 md:px-8 space-y-4">
+		<div className="container mx-auto px-4 md:px-8 space-y-4 pb-12">
 			<div className="flex flex-col justify-between sm:flex-row gap-4">
-				<div className="flex-1 flex justify-center md:justify-start space-x-4">
-					<Counter title={"pending"} count={3} />
-					<Counter title={"completed"} count={4} />
-				</div>
 				<Search ref={searchRef} style={"sm:self-end"} onSearch={handleSearch} />
 			</div>
 			<Table columns={columns} data={filteredData} buttonText="View" />

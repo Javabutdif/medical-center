@@ -28,8 +28,7 @@ const DashboardLayout = () => {
         return "Medical Report";
       case "/patient/settings":
         return "Settings";
-      case "/patient/support":
-        return "Support";
+    
       default:
         return "Dashboard";
     }
