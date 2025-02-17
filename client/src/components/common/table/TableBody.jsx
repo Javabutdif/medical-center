@@ -1,4 +1,4 @@
-  import React from 'react'
+import React from 'react'
 
 const TableBody = ({ data, columns }) => {
   const renderCell = (item, column) => {
@@ -7,20 +7,20 @@ const TableBody = ({ data, columns }) => {
   };
 
   return (
-    <tbody className="text-gray-700">
+    <tbody className="text-gray-800 font-body">
       {data.length === 0 ? (
         <tr>
-          <td colSpan={columns.length} className="text-center p-3">
+          <td colSpan={columns.length} className="text-center py-4 px-6 text-lg font-medium">
             No data available
           </td>
         </tr>
       ) : (
         data.map(item => (
-          <tr key={item.name} className="border-b hover:bg-gray-100">
+          <tr key={item.name} className="border-b hover:bg-gray-50 transition-colors duration-200">
             {columns.map(column => (
               <td
                 key={column.path || column.key}
-                className={`p-3 ${column.key === 'actions' ? 'w-full flex items-center justify-center text-center' : 'w-auto'}`}
+                className={`py-3 px-4 text-sm font-medium leading-relaxed ${column.key === 'actions' ? 'sm:table-cell text-right' : 'w-auto cursor-default'}`} // Add cursor-default to prevent pointer
               >
                 {renderCell(item, column)}
               </td>

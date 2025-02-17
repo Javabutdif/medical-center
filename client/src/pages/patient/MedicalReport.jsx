@@ -1,41 +1,37 @@
 import React, { useRef, useState, useEffect } from "react";
-import Counter from "../../components/medical-report/Counter";
-import Search from "../../components/common/Search";
-import Table from "../../components/common/table/Table";
-import Pagination from "../../components/common/table/Pagination";
 import { fetchMedicalReportUser } from "../../api/user";
 import { getInformationData } from "../../route/authentication";
 import { server_connection } from "../../connections/server_connection";
+import { FaEye } from "react-icons/fa";
+import TableLayout from "../../components/common/table/TableLayout";
+import Modal from "../../components/common/Modal";
 
 const MedicalReport = () => {
-	const [value, setValue] = useState("");
-	const [currentPage, setCurrentPage] = useState(1);
 	const [data, setData] = useState([]);
-	const searchRef = useRef();
 	const user = getInformationData();
-	const [selectedImage, setSelectedImage] = useState(null);
+	const [selectedImage, setSelectedImage] = useState(null);	
 	const [isModalOpen, setIsModalOpen] = useState(false);
+	const [imageUrl, setImageUrl] = useState(""); // To store the full image URL
+
 
 	const fetchApi = async () => {
-		const response = await fetchMedicalReportUser(user?.patient_id);
-		setData(response);
-	};
+		try {
+		  const response = await fetchMedicalReportUser(user?.patient_id);
+		  setData(response || []);
+		} catch (error) {
+		  console.error("Error fetching data:", error);
+		}
+	  };
+	  
 
 	useEffect(() => {
 		fetchApi();
 	}, []);
 
-	const handleSearch = () => {
-		if (searchRef.current) {
-			const searchValue = searchRef.current.getSearchValue();
-			setValue(searchValue);
-			setCurrentPage(1); // Reset to first page on search
-		}
-	};
-
 	const openModal = (image) => {
 		console.log(image);
 		setSelectedImage(server_connection() + "/" + image);
+		setSelectedImage(image);
 		console.log(selectedImage);
 		setIsModalOpen(true);
 	};
@@ -43,7 +39,16 @@ const MedicalReport = () => {
 	const closeModal = () => {
 		setIsModalOpen(false);
 		setSelectedImage(null);
+		setImageUrl("");
 	};
+
+	  // Handle the download functionality
+	  const handleDownload = () => {
+		const link = document.createElement("a");
+		link.href = imageUrl; // The image URL
+		link.download = selectedImage; // The image will be saved with the selected image's name
+		link.click();
+	  };
 
 	const columns = [
 		{ path: "examDescription", label: "exam description" },
@@ -55,50 +60,42 @@ const MedicalReport = () => {
 			label: "Actions",
 			content: (record) => (
 				<button
-					className="text-blue-500 hover:underline"
-					onClick={() => openModal(record.image)}>
-					View Details
+				className="flex justify-center items-center text-secondary text-2xl hover:underline"
+				onClick={() => openModal(record.image)}
+				title="View"
+				>
+				<FaEye />
 				</button>
 			),
 		},
 	];
 
-	const filteredData = data.filter((item) =>
-		columns.some((column) =>
-			item[column.path]?.toString().toLowerCase().includes(value.toLowerCase())
-		)
-	);
-
 	return (
-		<div className="container mx-auto px-4 md:px-8 space-y-4 pb-12">
-			<div className="flex flex-col justify-between sm:flex-row gap-4">
-				<Search ref={searchRef} style={"sm:self-end"} onSearch={handleSearch} />
-			</div>
-			<Table columns={columns} data={filteredData} buttonText="View" />
-			{isModalOpen && (
-				<div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50">
-					<div className="bg-white p-6 rounded-lg shadow-lg w-1/3 relative">
-						<button
-							className="absolute top-2 right-2 text-gray-500 hover:text-gray-700"
-							onClick={closeModal}>
-							&times;
-						</button>
-						{selectedImage ? (
-							<>
-								<a
-									href={selectedImage}
-									download
-									className="mt-4 block bg-blue-500 text-white py-2 px-4 text-center rounded hover:bg-blue-600">
-									Download File
-								</a>
-							</>
-						) : (
-							<p>No image available</p>
-						)}
-					</div>
-				</div>
-			)}
-		</div>
+		<>
+			<TableLayout 
+				columns={columns}
+				data={data}
+
+				modals={(
+					<Modal
+						isOpen={isModalOpen}
+						onClose={closeModal}
+						onConfirm={handleDownload} // Trigger download on confirm
+						buttonStyle="bg-blue-500 hover:bg-blue-600 text-white"
+					>
+						<div className="text-start">
+						<p className="text-lg font-medium text-gray-700 mb-4">
+							You are about to download the file
+						</p>
+						<p className="text-sm text-gray-500">
+							Please confirm that you would like to proceed with the download.
+						</p>
+						</div>
+					</Modal>
+				)}
+
+			/>	
+		</>
 	);
 };
 
