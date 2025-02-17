@@ -5,7 +5,8 @@ import { FaArrowLeft } from "react-icons/fa"; // Import the icon
 import Input from "../common/Input"; // Import the reusable Input component
 import logo from "../../../public/south.logo.jpg";
 import bgImage from "../../assets/Slider-1-1-Photoroom (1).png";
-import { register } from "../../api/register";
+import { register, fetchOtp } from "../../api/register";
+import OTPModal from "../modal/OTPModal";
 
 const Register = () => {
   const [step, setStep] = useState(1);
@@ -22,6 +23,15 @@ const Register = () => {
   const [confirmPassword, setConfirmPassword] = useState("");
   const [termsAccepted, setTermsAccepted] = useState(false);
   const [errors, setErrors] = useState({});
+  const [otpModal, setOtpModal] = useState(false);
+  const [otpServer, setOtpServer] = useState("");
+
+  const handleOtpModal = () => {
+    setOtpModal(true);
+  };
+  const handleCloseOtpModal = () => {
+    setOtpModal(false);
+  };
 
   const validateStep1 = () => {
     const newErrors = {};
@@ -54,8 +64,7 @@ const Register = () => {
     setStep(step - 1);
   };
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
+  const handleSubmit = async () => {
     if (validateStep2()) {
       if (
         await register(
@@ -72,6 +81,18 @@ const Register = () => {
         )
       ) {
       }
+    }
+  };
+
+  const fetchOtpFromServer = async (e) => {
+    e.preventDefault();
+
+    try {
+      const response = await fetchOtp(email, firstName, lastName);
+      setOtpServer(response);
+      handleOtpModal();
+    } catch (error) {
+      console.error(error);
     }
   };
 
@@ -117,7 +138,7 @@ const Register = () => {
               Register
             </h2>
           </header>
-          <form onSubmit={handleSubmit} className="space-y-3">
+          <form onSubmit={fetchOtpFromServer} className="space-y-3">
             {step === 1 && (
               <>
                 <div>
@@ -291,7 +312,15 @@ const Register = () => {
             </Link>
           </footer>
         </motion.div>
-        {/* <img src={bgImage} className='w-full h-full -bottom-32 left-80' alt="Background" /> */}
+        {otpModal && (
+          <>
+            <OTPModal
+              closeModal={() => handleCloseOtpModal()}
+              onVerifyOTP={() => handleSubmit()}
+              otpServer={otpServer}
+            />
+          </>
+        )}
       </div>
     </motion.div>
   );

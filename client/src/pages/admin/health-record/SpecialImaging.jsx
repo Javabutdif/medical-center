@@ -3,7 +3,7 @@ import Search from "../../../components/common/Search";
 import Table from "../../../components/common/table/Table";
 import { fetchAllSpecialImaging } from "../../../api/admin";
 import { server_connection } from "../../../connections/server_connection";
-import Modal from "../../../components/common/Modal";  // Import the Modal component
+import Modal from "../../../components/common/Modal"; // Import the Modal component
 import { FaEye } from "react-icons/fa";
 import TableLayout from "../../../components/common/table/TableLayout";
 
@@ -16,8 +16,12 @@ const SpecialImaging = () => {
 
   // Fetching all special imaging data
   const getAllSpecial = async () => {
-    const response = await fetchAllSpecialImaging();
-    setData(response);
+    try {
+      const response = await fetchAllSpecialImaging();
+      setData(response);
+    } catch (error) {
+      console.error(error);
+    }
   };
 
   useEffect(() => {
@@ -56,47 +60,46 @@ const SpecialImaging = () => {
       key: "actions",
       label: "Actions",
       content: (record) => (
-		<button
-		className="flex flex-col justify-center items-center text-blue-500 text-2xl *:hover:underline"
-		onClick={() => openModal(record.image)}
-	  >
-		<FaEye />
-		<span className="text-xs"> {/* Changed to text-xs for even smaller text */}
-		  view
-		</span>
-	  </button>
+        <button
+          className="flex flex-col justify-center items-center text-blue-500 text-2xl *:hover:underline"
+          onClick={() => openModal(record.image)}
+        >
+          <FaEye />
+          <span className="text-xs">
+            {" "}
+            {/* Changed to text-xs for even smaller text */}
+            view
+          </span>
+        </button>
       ),
     },
   ];
 
-
   return (
     <>
-      <TableLayout 
+      <TableLayout
         columns={columns}
         data={data}
-        modals={(
+        modals={
           <Modal
             isOpen={isModalOpen}
             onClose={closeModal}
             onConfirm={handleDownload} // Trigger download on confirm
             buttonStyle="bg-blue-500 hover:bg-blue-600 text-white" // Custom style for Cancel button
-            >
+          >
             <div className="text-start">
               <p className="text-lg font-medium text-gray-700 mb-4">
-              You are about to download the file
+                You are about to download the file
               </p>
               <p className="text-sm text-gray-500">
-              Please confirm that you would like to proceed with the download.
+                Please confirm that you would like to proceed with the download.
               </p>
             </div>
           </Modal>
-        )}
-    
+        }
       />
 
       {/* Modal to show selected image */}
-		
     </>
   );
 };

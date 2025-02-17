@@ -16,8 +16,12 @@ const Laboratory = () => {
 
   // Fetch all laboratory data
   const getAllLaboratories = async () => {
+    try{
     const response = await fetchAllLaboratory();
-    setData(response);
+      setData(response);
+    } catch (error) {
+      console.error(error);
+    }
   };
 
   useEffect(() => {

@@ -1,7 +1,7 @@
 // OTPModal.js
 import React, { useRef, useState } from "react";
 
-const OTPModal = ({ closeModal, onVerifyOTP }) => {
+const OTPModal = ({ closeModal, onVerifyOTP, otpServer }) => {
   const OTP_LENGTH = 6;
   const [otpValues, setOtpValues] = useState(Array(OTP_LENGTH).fill(""));
   const inputRefs = useRef([]);
@@ -33,8 +33,12 @@ const OTPModal = ({ closeModal, onVerifyOTP }) => {
       alert("Please enter a complete OTP.");
       return;
     }
-    onVerifyOTP(otp);
-    closeModal();
+    console.log(Number(otp) === otpServer);
+    if (Number(otp) === Number(otpServer)) {
+      onVerifyOTP();
+
+      closeModal();
+    }
   };
 
   return (

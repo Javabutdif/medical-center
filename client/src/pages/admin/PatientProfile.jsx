@@ -1,16 +1,16 @@
-import React, { useState, useEffect } from 'react';
-import Search from '../../components/common/Search';
-import Table from '../../components/common/table/Table';
+import React, { useState, useEffect } from "react";
+import Search from "../../components/common/Search";
+import Table from "../../components/common/table/Table";
 import {
   fetchAllPatients,
   updatedPatientApi,
   deletePatient,
 } from "../../api/admin";
 import Modal from "../../components/common/Modal";
-import { FaEllipsisH, FaEdit, FaTrash, FaUpload } from "react-icons/fa";  
+import { FaEllipsisH, FaEdit, FaTrash, FaUpload } from "react-icons/fa";
 import EditModal from "../../components/modal/EditModal";
 import UploadModal from "../../components/modal/UploadModal";
-import TableLayout from '../../components/common/table/TableLayout';
+import TableLayout from "../../components/common/table/TableLayout";
 
 const PatientProfile = () => {
   const [data, setData] = useState([]);
@@ -21,16 +21,18 @@ const PatientProfile = () => {
   const [isUploadModalOpen, setIsUploadModalOpen] = useState(false);
   const [loading, setLoading] = useState(false);
 
-
   const handleFetchAllPatients = async () => {
     setLoading(true);
-    const response = await fetchAllPatients();
-    console.log("Fetched data:", response);  // Log the response here
-    if (Array.isArray(response)) {
-      setData(response);
-    } else {
-      console.error("Expected an array, but got:", response);
-      // Handle error appropriately
+    try {
+      const response = await fetchAllPatients();
+      console.log("Fetched data:", response);
+      if (Array.isArray(response)) {
+        setData(response);
+      } else {
+        console.error("Expected an array, but got:", response);
+      }
+    } catch (error) {
+      console.error(error);
     }
     setLoading(false);
   };
@@ -97,24 +99,28 @@ const PatientProfile = () => {
         <div className="relative">
           <button
             onClick={() => toggleDropdown(patient.patient_id)}
-            className="bg-gray-500 text-white px-3 py-1 rounded hover:bg-gray-600 flex items-center">
+            className="bg-gray-500 text-white px-3 py-1 rounded hover:bg-gray-600 flex items-center"
+          >
             <FaEllipsisH />
           </button>
           {dropdownOpen === patient.patient_id && (
             <div className="absolute right-0 mt-2 w-48 bg-white border rounded shadow-lg z-50">
               <button
                 onClick={() => handleUpload(patient)}
-                className="block w-full text-left px-4 py-2 text-gray-800 hover:bg-gray-100 flex items-center">
+                className="block w-full text-left px-4 py-2 text-gray-800 hover:bg-gray-100 flex items-center"
+              >
                 <FaUpload className="mr-2" /> Upload
               </button>
               <button
                 onClick={() => handleEdit(patient)}
-                className="block w-full text-left px-4 py-2 text-gray-800 hover:bg-gray-100 flex items-center">
+                className="block w-full text-left px-4 py-2 text-gray-800 hover:bg-gray-100 flex items-center"
+              >
                 <FaEdit className="mr-2" /> Edit
               </button>
               <button
                 onClick={() => handleDelete(patient)}
-                className="block w-full text-left px-4 py-2 text-gray-800 hover:bg-gray-100 flex items-center">
+                className="block w-full text-left px-4 py-2 text-gray-800 hover:bg-gray-100 flex items-center"
+              >
                 <FaTrash className="mr-2" /> Delete
               </button>
             </div>
@@ -124,13 +130,12 @@ const PatientProfile = () => {
     },
   ];
 
-
   return (
     <>
-      <TableLayout 
+      <TableLayout
         columns={columns}
-        data={data}   
-        modals={(
+        data={data}
+        modals={
           <>
             <Modal
               isOpen={isModalOpen}
@@ -155,7 +160,7 @@ const PatientProfile = () => {
               patient={selectedPatient}
             />
           </>
-        )}
+        }
       />
     </>
   );
