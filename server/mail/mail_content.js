@@ -15,7 +15,9 @@ const sendMail = async (email, firstName, lastName) => {
   const htmlContent = `
         <div style="text-align: center; padding: 20px;">
            
-            <h2>Hello ${firstName} ${lastName}!</h2>
+            <h2>Hello ${firstName === "" ? firstName : email} ${
+    lastName === "" ? lastName : ""
+  }!</h2>
             <p>This is from Southwestern University Medical Center Mount Grace Partner. Your One-Time Pin (OTP) is <strong>${otp}</strong>.</p>
             <p>Please use this pin to proceed with your verification.</p>
             <p>If you did not request this OTP, please ignore this email.</p>

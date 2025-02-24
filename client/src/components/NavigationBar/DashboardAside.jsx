@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState } from "react";
 import { Link, useLocation } from "react-router-dom";
 import {
   FaTachometerAlt,
@@ -13,12 +13,12 @@ import {
   FaFlask,
   FaXRay,
   FaChevronDown,
-  FaClipboard
+  FaClipboard,
 } from "react-icons/fa";
 import logo from "../../../public/south.logo.jpg";
 import { showToast } from "../helper/alert_helper";
 import { removeAuthentication } from "../../route/authentication";
-import { useSnackbar } from 'notistack'; // Import useSnackbar
+import { useSnackbar } from "notistack"; // Import useSnackbar
 import { getInformationData } from "../../route/authentication";
 
 const DashboardAside = ({ isOpen, toggle, isAdmin }) => {
@@ -31,8 +31,8 @@ const DashboardAside = ({ isOpen, toggle, isAdmin }) => {
   useEffect(() => {
     const handleResize = () => setWidthSize(window.innerWidth);
 
-    window.addEventListener('resize', handleResize);
-    return () => window.removeEventListener('resize', handleResize);
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
   }, []);
 
   const handleLogout = () => {
@@ -43,19 +43,19 @@ const DashboardAside = ({ isOpen, toggle, isAdmin }) => {
   const isActive = (path) => location.pathname === path; // Check if the path is active
 
   const toggleDropdown = () => setIsDropdownOpen(!isDropdownOpen);
-
+  console.log(user);
   return (
     <aside
       className={` 
         flex flex-col
         z-50 fixed top-0 left-0 w-72 min-h-screen bg-secondary shadow-lg
         transition-transform duration-500 ease-in-out
-        ${isOpen ? 'translate-x-0' : '-translate-x-full'}
+        ${isOpen ? "translate-x-0" : "-translate-x-full"}
         2xl:translate-x-0
       `}
     >
       <Link
-        to="/"
+        to={user.patient_id === null ? "/admin" : "/patient"}
         className="text-white p-4 md:p-6 lg:p-8 xl:p-10 flex gap-2 text-[0.6rem] 2xl:text-xs items-center font-bold font-heading uppercase tracking-wide"
       >
         <img
@@ -74,7 +74,7 @@ const DashboardAside = ({ isOpen, toggle, isAdmin }) => {
             <>
               <li>
                 <Link
-                  to="/"
+                  to="/admin"
                   className={`text-accent flex items-center gap-3 p-3 rounded-md hover:text-primary hover:bg-accent ${
                     isActive("/") ? "text-primary bg-accent" : ""
                   }`}
@@ -91,7 +91,9 @@ const DashboardAside = ({ isOpen, toggle, isAdmin }) => {
                   <FaVials />
                   <span>Healthcare Record</span>
                   <FaChevronDown
-                    className={`transition-transform ${isDropdownOpen ? "rotate-180" : ""}`}
+                    className={`transition-transform ${
+                      isDropdownOpen ? "rotate-180" : ""
+                    }`}
                   />
                 </div>
                 {isDropdownOpen && (
@@ -100,7 +102,9 @@ const DashboardAside = ({ isOpen, toggle, isAdmin }) => {
                       <Link
                         to="/admin/healthcare-record/laboratory"
                         className={`text-accent flex items-center gap-3 p-3 rounded-md hover:text-primary hover:bg-accent ${
-                          isActive("/admin/healthcare-record/laboratory") ? "text-primary bg-accent" : ""
+                          isActive("/admin/healthcare-record/laboratory")
+                            ? "text-primary bg-accent"
+                            : ""
                         }`}
                       >
                         <FaFlask />
@@ -111,7 +115,9 @@ const DashboardAside = ({ isOpen, toggle, isAdmin }) => {
                       <Link
                         to="/admin/healthcare-record/special-imaging"
                         className={`text-accent flex items-center gap-3 p-3 rounded-md hover:text-primary hover:bg-accent ${
-                          isActive("/admin/healthcare-record/special-imaging") ? "text-primary bg-accent" : ""
+                          isActive("/admin/healthcare-record/special-imaging")
+                            ? "text-primary bg-accent"
+                            : ""
                         }`}
                       >
                         <FaXRay />
@@ -125,7 +131,9 @@ const DashboardAside = ({ isOpen, toggle, isAdmin }) => {
                 <Link
                   to="/admin/patient-profile"
                   className={`text-accent flex items-center gap-3 p-3 rounded-md hover:text-primary hover:bg-accent ${
-                    isActive("/admin/patient-profile") ? "text-primary bg-accent" : ""
+                    isActive("/admin/patient-profile")
+                      ? "text-primary bg-accent"
+                      : ""
                   }`}
                 >
                   <FaClipboard />
@@ -137,7 +145,7 @@ const DashboardAside = ({ isOpen, toggle, isAdmin }) => {
             <>
               <li>
                 <Link
-                  to="/"
+                  to="/patient"
                   className={`text-accent flex items-center gap-3 p-3 rounded-md hover:text-primary hover:bg-accent ${
                     isActive("/") ? "text-primary bg-accent" : ""
                   }`}
@@ -173,7 +181,11 @@ const DashboardAside = ({ isOpen, toggle, isAdmin }) => {
         </ul>
       </nav>
 
-      <div className={`mt-auto bg-accent text-primary p-4 md:p-6 lg:p-8 xl:p-10 ${isOpen ? "block" : "hidden"} 2xl:block`}>
+      <div
+        className={`mt-auto bg-accent text-primary p-4 md:p-6 lg:p-8 xl:p-10 ${
+          isOpen ? "block" : "hidden"
+        } 2xl:block`}
+      >
         <div className="flex flex-col items-start">
           <span className="font-bold">{user.name}</span>
           <span className="text-sm">{user.email}</span>

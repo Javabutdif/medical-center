@@ -14,7 +14,7 @@ const Login = ({ role }) => {
   const [errors, setErrors] = useState({});
   const navigate = useNavigate();
   const { enqueueSnackbar, closeSnackbar } = useSnackbar(); // Initialize useSnackbar
-
+  sessionStorage.setItem("reloaded", "false");
   const validate = () => {
     const errors = {};
     if (!username) errors.username = "Username is required";

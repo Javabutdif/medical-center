@@ -22,7 +22,22 @@ router.post("/register", async (req, res) => {
     email,
     mobile_number,
   } = req.body;
+  
+  const calculateAge = (birthday) => {
+    const birthDate = new Date(birthday);
+    const today = new Date();
+    let age = today.getFullYear() - birthDate.getFullYear();
+    const monthDifference = today.getMonth() - birthDate.getMonth();
+    if (
+      monthDifference < 0 ||
+      (monthDifference === 0 && today.getDate() < birthDate.getDate())
+    ) {
+      age--;
+    }
+    return age;
+  };
 
+  const age = calculateAge(birthday);
   try {
     const hashedPassword = await bcrypt.hash(password, 10);
 
@@ -31,6 +46,7 @@ router.post("/register", async (req, res) => {
       username,
       password: hashedPassword,
       firstname,
+      age,
       middlename: middlename === undefined ? "" : middlename,
       lastname,
       email,
@@ -58,10 +74,29 @@ router.post("/get-otp", async (req, res) => {
 
   try {
     const response = await sendMail(email, firstname, lastname);
-    console.log(response);
+    //console.log(response);
     res.status(200).json({ data: response, message: "Sending OTP to email" });
   } catch (error) {
     console.error(error);
+  }
+});
+
+router.post("/change-password", async (req, res) => {
+  const { password, email } = req.body;
+  const hashedPassword = await bcrypt.hash(password, 10);
+  try {
+    await User.updateOne(
+      { email: email },
+      {
+        $set: {
+          password: hashedPassword,
+        },
+      }
+    );
+    res.status(200).json({ message: "Password changed successfully" });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: "Internal Server Error" });
   }
 });
 

@@ -78,3 +78,33 @@ export const fetchOtp = async (email, firstname, lastname) => {
     }
   }
 };
+///change-password"
+
+export const changePassword = async (password, email) => {
+  const payload = {
+    password,
+    email,
+  };
+
+  try {
+    const response = await axios.post(
+      `${server_connection()}/api/change-password`,
+      payload,
+      {
+        headers: {
+          "Content-Type": "application/json",
+        },
+      }
+    );
+    alert(response.data.message);
+
+    return response.status === 200 ? true : false;
+  } catch (error) {
+    if (error.response && error.response.data) {
+      return false;
+    } else {
+      console.log("error", "An error occurred");
+      return false;
+    }
+  }
+};

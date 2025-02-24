@@ -1,8 +1,9 @@
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
-import { SnackbarProvider } from 'notistack';
+import { SnackbarProvider } from "notistack";
 import Login from "./components/authentication/Login";
 import Register from "./components/authentication/Register";
 import Home from "./pages/Home";
+import ForgotPassword from "./components/modal/ForgotPasswordModal";
 
 // Layout
 import LandingLayout from "./components/Layout/LandingLayout";
@@ -22,52 +23,55 @@ import PatientProfile from "./pages/admin/PatientProfile";
 
 function App() {
   return (
-		<SnackbarProvider maxSnack={3}>
-			<Router>
-				<Routes>
-					<Route path="/" element={<LandingLayout />}>
-						<Route index element={<Home />} />
-					</Route>
-					<Route path="/login" element={<Login />} />
-					<Route path="/register" element={<Register />} />
-					<Route
-						path="admin"
-						element={<Private_route_admin element={DashboardLayout} />}>
-						<Route
-							index
-							element={<Private_route_admin element={AdminHome} />}
-						/>
-						<Route
-							path="healthcare-record/laboratory"
-							element={<Private_route_admin element={Laboratory} />}
-						/>
-						<Route
-							path="healthcare-record/special-imaging"
-							element={<Private_route_admin element={SpecialImaging} />}
-						/>
-						<Route
-							path="patient-profile"
-							element={<Private_route_admin element={PatientProfile} />}
-						/>
-					</Route>
-					<Route
-						path="patient"
-						element={<Private_route_user element={DashboardLayout} />}>
-						<Route index element={<Private_route_user element={Dashboard} />} />
-						<Route
-							path="profile"
-							element={<Private_route_user element={Profile} />}
-						/>
-						<Route
-							path="medical-report"
-							element={<Private_route_user element={MedicalReport} />}
-						/>
-					</Route>
-					{/* Add more routes here as needed */}
-				</Routes>
-			</Router>
-		</SnackbarProvider>
-	);
+    <SnackbarProvider maxSnack={3}>
+      <Router>
+        <Routes>
+          <Route path="/" element={<LandingLayout />}>
+            <Route index element={<Home />} />
+          </Route>
+          <Route path="/login" element={<Login />} />
+          <Route path="/register" element={<Register />} />
+          <Route path="/forgot-password" element={<ForgotPassword />} />
+          <Route
+            path="admin"
+            element={<Private_route_admin element={DashboardLayout} />}
+          >
+            <Route
+              index
+              element={<Private_route_admin element={AdminHome} />}
+            />
+            <Route
+              path="healthcare-record/laboratory"
+              element={<Private_route_admin element={Laboratory} />}
+            />
+            <Route
+              path="healthcare-record/special-imaging"
+              element={<Private_route_admin element={SpecialImaging} />}
+            />
+            <Route
+              path="patient-profile"
+              element={<Private_route_admin element={PatientProfile} />}
+            />
+          </Route>
+          <Route
+            path="patient"
+            element={<Private_route_user element={DashboardLayout} />}
+          >
+            <Route index element={<Private_route_user element={Dashboard} />} />
+            <Route
+              path="profile"
+              element={<Private_route_user element={Profile} />}
+            />
+            <Route
+              path="medical-report"
+              element={<Private_route_user element={MedicalReport} />}
+            />
+          </Route>
+          {/* Add more routes here as needed */}
+        </Routes>
+      </Router>
+    </SnackbarProvider>
+  );
 }
 
 export default App;
