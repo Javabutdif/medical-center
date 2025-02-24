@@ -64,7 +64,7 @@ const DashboardAside = ({ isOpen, toggle, isAdmin }) => {
           alt="Logo"
         />
         <div className="w-40 inline-block text-[0.7rem] leading-3 tracking-wider">
-          Southwesternuniversity Medical Center Mount Grace Partner
+          Southwesternuniversity Medical Center
         </div>
       </Link>
 
@@ -166,17 +166,6 @@ const DashboardAside = ({ isOpen, toggle, isAdmin }) => {
                 >
                   <FaFileMedical />
                   <span>Medical Report</span>
-                </Link>
-              </li>
-              <li className="mt-auto">
-                <Link
-                  to="/patient/settings"
-                  className={`text-accent flex items-center gap-3 p-3 rounded-md hover:text-primary hover:bg-accent ${
-                    isActive("/settings") ? "text-primary bg-accent" : ""
-                  }`}
-                >
-                  <FaCog />
-                  <span>Settings</span>
                 </Link>
               </li>
             </>

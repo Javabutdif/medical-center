@@ -3,7 +3,7 @@ import { Outlet } from 'react-router-dom'
 
 const DashboardMain = () => {
   return (
-    <main className='2xl:ml-72 pt-24 min-h-screen/main'>
+    <main className='2xl:ml-72 pt-20 xl:pt-24 min-h-screen/main'>
       <Outlet />
     </main>
   )

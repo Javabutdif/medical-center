@@ -15,7 +15,6 @@ import Private_route_admin from "./route/Private_route_admin";
 import Private_route_user from "./route/Private_route_user";
 import Profile from "./pages/patient/Profile";
 import MedicalReport from "./pages/patient/MedicalReport";
-import Settings from "./pages/patient/Settings";
 
 import Laboratory from "./pages/admin/health-record/Laboratory";
 import SpecialImaging from "./pages/admin/health-record/SpecialImaging";
@@ -62,10 +61,6 @@ function App() {
 						<Route
 							path="medical-report"
 							element={<Private_route_user element={MedicalReport} />}
-						/>
-						<Route
-							path="settings"
-							element={<Private_route_user element={Settings} />}
 						/>
 					</Route>
 					{/* Add more routes here as needed */}

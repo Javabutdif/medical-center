@@ -11,7 +11,7 @@ const TableLayout = ({
 }) => {
   const [searchQuery, setSearchQuery] = useState("");
   const [currentPage, setCurrentPage] = useState(2);
-  const itemsPerPage = 5;
+  const itemsPerPage = 8;
   
   const handleSearch = (query) => {
     setSearchQuery(query);

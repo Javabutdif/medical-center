@@ -30,9 +30,10 @@ const MedicalReport = () => {
 
 	const openModal = (image) => {
 		console.log(image);
-		setSelectedImage(server_connection() + "/" + image);
+		const fullImageUrl = server_connection() + "/" + image;
+		setImageUrl(fullImageUrl);
 		setSelectedImage(image);
-		console.log(selectedImage);
+		console.log(fullImageUrl);
 		setIsModalOpen(true);
 	};
 

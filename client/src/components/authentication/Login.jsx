@@ -74,7 +74,6 @@ const Login = ({ role }) => {
               <div className="inline-block">
                 <p>Southwesternuniversity</p>
                 <p>Medical Center</p>
-                <p>Mount Grace Partner</p>
               </div>
             </div>
             <h2 className="text-2xl font-bold text-center  text-primary font-heading">

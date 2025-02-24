@@ -1,9 +1,23 @@
-import React from 'react'
-import { FaMapMarkerAlt, FaPhoneAlt, FaMobileAlt } from 'react-icons/fa'
+import React, { useEffect, useState } from 'react';
+import { FaMapMarkerAlt, FaPhoneAlt, FaMobileAlt } from 'react-icons/fa';
 
 const DashboardFooter = () => {
+  const [isAtBottom, setIsAtBottom] = useState(false);
+
+  useEffect(() => {
+    const handleScroll = () => {
+      const scrollHeight = document.documentElement.scrollHeight;
+      const scrollTop = document.documentElement.scrollTop;
+      const clientHeight = document.documentElement.clientHeight;
+      setIsAtBottom(scrollTop + clientHeight >= scrollHeight);
+    };
+
+    window.addEventListener('scroll', handleScroll);
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
+
   return (
-    <footer className='fixed w-full bottom-0 md:pl-72 text-primary p-4'>
+    <footer className={`fixed w-full bottom-0 2xl:pl-72 text-primary p-4 ${isAtBottom ? '' : 'bg-accent'}`}>
       <div className='flex flex-col pl-4 md:flex-row justify-between items-center gap-2'>
         <div className='text-center md:text-left flex items-center gap-2'>
           <FaMapMarkerAlt />
@@ -21,7 +35,7 @@ const DashboardFooter = () => {
         </div>
       </div>
     </footer>
-  )
-}
+  );
+};
 
-export default DashboardFooter
+export default DashboardFooter;
