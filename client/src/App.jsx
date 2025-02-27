@@ -3,7 +3,6 @@ import { SnackbarProvider } from "notistack";
 import Login from "./components/authentication/Login";
 import Register from "./components/authentication/Register";
 import Home from "./pages/Home";
-import ForgotPassword from "./components/modal/ForgotPasswordModal";
 
 // Layout
 import LandingLayout from "./components/Layout/LandingLayout";
@@ -31,7 +30,6 @@ function App() {
           </Route>
           <Route path="/login" element={<Login />} />
           <Route path="/register" element={<Register />} />
-          <Route path="/forgot-password" element={<ForgotPassword />} />
           <Route
             path="admin"
             element={<Private_route_admin element={DashboardLayout} />}

@@ -1,14 +1,16 @@
 import React, { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom"; // Import useNavigate
 import { motion } from "framer-motion"; // Import Framer Motion
-import { FaArrowLeft } from "react-icons/fa"; // Import the icon
+import { FaArrowLeft, FaQuestionCircle } from "react-icons/fa"; // Import the icons
 import Input from "../common/Input"; // Import the reusable Input component
 import logo from "../../../public/south.logo.jpg";
 import bgImage from "../../assets/Slider-1-1-Photoroom (1).png";
 import { register, fetchOtp } from "../../api/register";
 import OTPModal from "../modal/OTPModal";
+import UserGuideModal from "../modal/UserGuideModal"; // Import UserGuideModal
 
 const Register = () => {
+  const navigate = useNavigate(); // Initialize useNavigate
   const [step, setStep] = useState(1);
   const [username, setUsername] = useState("");
   const [firstName, setFirstName] = useState("");
@@ -25,6 +27,7 @@ const Register = () => {
   const [errors, setErrors] = useState({});
   const [otpModal, setOtpModal] = useState(false);
   const [otpServer, setOtpServer] = useState("");
+  const [showUserGuideModal, setShowUserGuideModal] = useState(false); // State for modal visibility
 
   const handleOtpModal = () => {
     setOtpModal(true);
@@ -80,6 +83,7 @@ const Register = () => {
           password
         )
       ) {
+        navigate("/login"); // Navigate to login page after successful registration
       }
     }
   };
@@ -94,6 +98,10 @@ const Register = () => {
     } catch (error) {
       console.error(error);
     }
+  };
+
+  const handleUserGuideRedirect = () => {
+    setShowUserGuideModal(true);
   };
 
   return (
@@ -321,6 +329,23 @@ const Register = () => {
             />
           </>
         )}
+        {showUserGuideModal && (
+          <UserGuideModal onClose={() => setShowUserGuideModal(false)} /> // Render modal conditionally
+        )}
+        <div className="fixed bottom-4 right-4">
+          <div className="relative group">
+            <button
+              type="button"
+              onClick={handleUserGuideRedirect}
+              className="p-3 bg-secondary text-white rounded-full shadow-lg"
+            >
+              <FaQuestionCircle size={24} />
+            </button>
+            <div className="absolute bottom-full mb-2 hidden group-hover:block bg-black text-white text-xs rounded py-1 px-2">
+              User Guide
+            </div>
+          </div>
+        </div>
       </div>
     </motion.div>
   );
