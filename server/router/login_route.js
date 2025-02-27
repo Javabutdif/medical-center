@@ -41,22 +41,23 @@ router.post("/login", async (req, res) => {
     }
 
     const user =
-			role === "Admin"
-				? { name: user1.name, department: user1.department }
-				: {
-						name: `${user1.firstname} ${user1.middlename} ${user1.lastname}`,
-						email: user1.email,
-						patient_id: user1.patient_id,
-				  };
+      role === "Admin"
+        ? { name: user1.name, department: user1.department }
+        : {
+            name: `${user1.firstname} ${user1.middlename} ${user1.lastname}`,
+            email: user1.email,
+            patient_id: user1.patient_id,
+            hasSeenTour: user1.hasSeenTour,
+          };
 
-		const token = generateToken(user, role);
+    const token = generateToken(user, role);
 
-		return res.status(200).json({
-			message: "Login successful.",
-			token,
-			user,
-			role,
-		});
+    return res.status(200).json({
+      message: "Login successful.",
+      token,
+      user,
+      role,
+    });
   } catch (error) {
     console.error("Login error:", error);
     return res
@@ -65,12 +66,24 @@ router.post("/login", async (req, res) => {
   }
 });
 
-router.get("/protected-route", authenticateToken, (req, res) => {
-  return res.json({
-    message: "Access granted",
-    user: req.user,
-    role: req.role,
-  });
+router.get("/protected-route", authenticateToken, async (req, res) => {
+  try {
+    const user1 = await User.findOne({ patient_id: req.user.patient_id });
+    let admin;
+    if (!user1) {
+      admin = await Admin.findOne({ name: req.user.name });
+    }
+    console.log("User:", user1);
+    console.log("Admin:", admin);
+    return res.json({
+      message: "Access granted",
+      user: req.user,
+      role: req.role,
+      hasSeenTour: user1?.hasSeenTour || admin?.hasSeenTour,
+    });
+  } catch (error) {
+    console.error("Protected route error:", error);
+  }
 });
 
 module.exports = router;

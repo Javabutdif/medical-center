@@ -59,6 +59,10 @@ const userSchema = new Schema({
     type: String,
     required: true,
   },
+  hasSeenTour: {
+    type: Boolean,
+    default: false,
+  },
 });
 
 const User = mongoose.model("User", userSchema, "user");

@@ -22,7 +22,7 @@ router.post("/register", async (req, res) => {
     email,
     mobile_number,
   } = req.body;
-  
+
   const calculateAge = (birthday) => {
     const birthDate = new Date(birthday);
     const today = new Date();
@@ -73,8 +73,12 @@ router.post("/get-otp", async (req, res) => {
   const { email, firstname, lastname } = req.body;
 
   try {
+    const checkEmail = await User.findOne({ email: email });
+    if (checkEmail) {
+      return res.status(400).json({ message: "Email already exists" });
+    }
     const response = await sendMail(email, firstname, lastname);
-    //console.log(response);
+
     res.status(200).json({ data: response, message: "Sending OTP to email" });
   } catch (error) {
     console.error(error);

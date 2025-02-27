@@ -42,52 +42,76 @@ router.get(
 //user/update-data
 
 router.put("/user/update-data", async (req, res) => {
-	const {
-		patientNo,
-		firstName,
-		middleName,
-		lastName,
-		suffix,
-		gender,
-		emergencyContact,
-		dob,
-		address,
-		email,
-		country,
-		state,
-		postalCode,
-		mobile_number,
-	} = req.body;
+  const {
+    patientNo,
+    firstName,
+    middleName,
+    lastName,
+    suffix,
+    gender,
+    emergencyContact,
+    dob,
+    address,
+    email,
+    country,
+    state,
+    postalCode,
+    mobile_number,
+  } = req.body;
 
-	try {
-		await User.updateOne(
-			{ patient_id: patientNo },
-			{
-				firstName,
-				middleName,
-				lastName,
-				suffix,
-				gender,
-				emergencyContact,
-				dob,
-				address,
-				email,
-				country,
-				state,
-				postalCode,
-				mobile_number,
-			}
-		);
+  try {
+    await User.updateOne(
+      { patient_id: patientNo },
+      {
+        firstName,
+        middleName,
+        lastName,
+        suffix,
+        gender,
+        emergencyContact,
+        dob,
+        address,
+        email,
+        country,
+        state,
+        postalCode,
+        mobile_number,
+      }
+    );
 
-		res.status(200).json({ message: "Update Profile successful" });
-	} catch (error) {
-		if (error.code === 11000) {
-			res.status(400).json({ message: error });
-		} else {
-			console.error({ message: "Error updating user:", error });
-			res.status(500).json({ message: "Internal Server Error" });
-		}
-	}
+    res.status(200).json({ message: "Update Profile successful" });
+  } catch (error) {
+    if (error.code === 11000) {
+      res.status(400).json({ message: error });
+    } else {
+      console.error({ message: "Error updating user:", error });
+      res.status(500).json({ message: "Internal Server Error" });
+    }
+  }
+});
+
+router.put("/user/update-tour", async (req, res) => {
+  const { id, type } = req.body;
+  try {
+    const user =
+      type === "patient"
+        ? await User.updateOne(
+            {
+              patient_id: id,
+            },
+            { $set: { hasSeenTour: true } }
+          )
+        : await Admin.updateOne(
+            {
+              name: id,
+            },
+            { $set: { hasSeenTour: true } }
+          );
+    console.log(user);
+    res.status(200);
+  } catch (error) {
+    res.status(500).json({ message: "Internal Server Error" });
+  }
 });
 
 module.exports = router;

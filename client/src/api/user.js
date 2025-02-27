@@ -66,3 +66,27 @@ export const updateProfile = async (formData) => {
     }
   }
 };
+
+export const updateSeenTour = async (formData) => {
+  console.log(formData);
+  try {
+    const response = await axios.put(
+      `${server_connection()}/api/user/update-tour`,
+      formData,
+      {
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    );
+    return response.status === 200 ? true : false;
+  } catch (error) {
+    if (error.response && error.response.data) {
+      return false;
+    } else {
+      console.log("error", "An error occurred");
+      return false;
+    }
+  }
+};

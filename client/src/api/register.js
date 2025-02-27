@@ -70,7 +70,7 @@ export const fetchOtp = async (email, firstname, lastname) => {
     );
     enqueueSnackbar(response.data.message, { variant: "success" }); // Show success toast
     console.log(response.data.data.otp);
-    return response.status === 200 ? response.data.data.otp : "";
+    return response.status === 200 ? response.data.data.otp : false;
   } catch (error) {
     if (error.response && error.response.data) {
       enqueueSnackbar(error.response.data.message, { variant: "error" }); // Show error toast

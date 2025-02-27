@@ -93,8 +93,11 @@ const Register = () => {
 
     try {
       const response = await fetchOtp(email, firstName, lastName);
-      setOtpServer(response);
-      handleOtpModal();
+      console.log(response);
+      if (response !== false) {
+        setOtpServer(response);
+        handleOtpModal();
+      }
     } catch (error) {
       console.error(error);
     }
