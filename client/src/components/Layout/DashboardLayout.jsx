@@ -209,7 +209,7 @@ const DashboardLayout = () => {
     if ([STATUS.FINISHED, STATUS.SKIPPED].includes(status)) {
       setRunTour(false);
 
-      console.log(formData);
+      
       if (await updateSeenTour(formData)) setIsOpen(false);
       return;
     }

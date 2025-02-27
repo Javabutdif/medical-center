@@ -73,8 +73,7 @@ router.get("/protected-route", authenticateToken, async (req, res) => {
     if (!user1) {
       admin = await Admin.findOne({ name: req.user.name });
     }
-    console.log("User:", user1);
-    console.log("Admin:", admin);
+    
     return res.json({
       message: "Access granted",
       user: req.user,
