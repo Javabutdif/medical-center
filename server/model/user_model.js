@@ -47,6 +47,9 @@ const userSchema = new Schema({
   birthday: {
     type: Date,
   },
+  age: {
+    type: Number,
+  },
   password: {
     type: String,
     required: true,

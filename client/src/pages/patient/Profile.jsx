@@ -45,6 +45,7 @@ const Profile = () => {
       address: response[0].address,
       country: response[0].country,
       emergencyContact: response[0].emergencyContact,
+      age: response[0].age,
     });
     console.log(response[0]);
   };
@@ -63,7 +64,12 @@ const Profile = () => {
 
   const handleConfirm = async () => {
     setIsModalOpen(false);
-    // Add save logic here
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailRegex.test(formData.email)) {
+      const key = showToast(enqueueSnackbar, "error", "Invalid Email Format");
+      setTimeout(() => closeSnackbar(key), 2000);
+      return;
+    }
     if (await updateProfile(formData)) {
       const key = showToast(enqueueSnackbar, "success", "Update Successful"); // Use enqueueSnackbar
       setTimeout(() => closeSnackbar(key), 2000);
