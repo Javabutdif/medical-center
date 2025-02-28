@@ -70,12 +70,16 @@ router.post("/register", async (req, res) => {
 });
 
 router.post("/get-otp", async (req, res) => {
-  const { email, firstname, lastname } = req.body;
+  const { email, firstname, lastname, type } = req.body;
 
   try {
+
     const checkEmail = await User.findOne({ email: email });
-    if (checkEmail) {
+    if (checkEmail && type === "register") {
       return res.status(400).json({ message: "Email already exists" });
+    }
+    else if (!checkEmail && type === "forgot") {
+      return res.status(400).json({ message: "Email does not exist" });
     }
     const response = await sendMail(email, firstname, lastname);
 

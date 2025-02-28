@@ -51,11 +51,12 @@ export const register = async (
   }
 };
 
-export const fetchOtp = async (email, firstname, lastname) => {
+export const fetchOtp = async (email, firstname, lastname, type) => {
   const payload = {
     email,
     firstname,
     lastname,
+    type
   };
 
   try {

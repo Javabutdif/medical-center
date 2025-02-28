@@ -92,7 +92,7 @@ const Register = () => {
     e.preventDefault();
 
     try {
-      const response = await fetchOtp(email, firstName, lastName);
+      const response = await fetchOtp(email, firstName, lastName, "register");
       console.log(response);
       if (response !== false) {
         setOtpServer(response);

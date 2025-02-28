@@ -33,9 +33,11 @@ const ForgotPasswordModal = ({ onResetInitiated }) => {
       return;
     }
     setError("");
-    const response = await fetchOtp(emailForReset, "", "");
-    setServerOtp(response);
-    setStep("otp");
+    const response = await fetchOtp(emailForReset, "", "", "forgot");
+    if (response !== false) {
+      setServerOtp(response);
+      setStep("otp");
+    }
   };
 
   const handleInputChange = (e, index) => {
@@ -133,7 +135,8 @@ const ForgotPasswordModal = ({ onResetInitiated }) => {
               Enter OTP
             </h2>
             <p className="text-muted text-sm text-center mb-6">
-              Please enter the 6-digit OTP sent to your registered email address.
+              Please enter the 6-digit OTP sent to your registered email
+              address.
             </p>
             <div className="flex justify-center space-x-3">
               {otpValues.map((value, index) => (
