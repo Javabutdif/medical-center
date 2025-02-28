@@ -347,7 +347,7 @@ const DashboardLayout = () => {
       <DashboardFooter />
       {isOpen && (
         <div
-          className="fixed inset-0 bg-black opacity-50 z-10"
+          className="z-40 fixed inset-0 bg-black opacity-50 z-10"
           onClick={toggle}
         ></div>
       )}

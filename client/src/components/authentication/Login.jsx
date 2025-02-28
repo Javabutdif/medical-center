@@ -9,6 +9,7 @@ import ForgotPasswordModal from "../modal/ForgotPasswordModal"; // Import Forgot
 import UserGuideModal from "../modal/UserGuideModal"; // Import UserGuideModal
 import { FaQuestionCircle } from "react-icons/fa"; // Import the icon
 import LoadingScreen from "../common/LoadingScreen";
+import Joyride, { STATUS } from 'react-joyride';
 
 const Login = ({ role }) => {
   console.log(role);
@@ -19,6 +20,7 @@ const Login = ({ role }) => {
   const [showForgotPasswordModal, setShowForgotPasswordModal] = useState(false);
   const [showUserGuideModal, setShowUserGuideModal] = useState(false);
   const [loading, setLoading] = useState(false);
+  const [hasSeenLoginTour, setHasSeenLoginTour] = useState(false);
   const navigate = useNavigate();
   const { enqueueSnackbar, closeSnackbar } = useSnackbar();
 
@@ -62,7 +64,47 @@ const Login = ({ role }) => {
     }
   }, []);
 
-  
+  const steps = [
+    {
+      target: '.login-header',
+      content: 'Welcome to Southwestern University Medical Center Login',
+      disableBeacon: true,
+    },
+    {
+      target: '.login-form',
+      content: 'Enter your username and password here to access your account.',
+      placement: 'bottom',
+    },
+    {
+      target: '.remember-section',
+      content: 'You can choose to stay logged in for convenience.',
+    },
+    {
+      target: '.forgot-password',
+      content: 'Forgot your password? Click here to reset it.',
+      placement: 'bottom',
+    },
+    {
+      target: '.login-button',
+      content: 'Click here to log in to your account.',
+      placement: 'top',
+    },
+    {
+      target: '.register-link',
+      content: "Don't have an account? Click here to create one.",
+    },
+  ];
+
+  const handleJoyrideCallback = (data) => {
+    const { status } = data;
+    if (status === STATUS.FINISHED || status === STATUS.SKIPPED) {
+      setHasSeenLoginTour(false);
+    }
+  };
+
+  const handleUserGuideRedirect = () => {
+    setHasSeenLoginTour(true);
+  };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -94,6 +136,23 @@ const Login = ({ role }) => {
       transition={{ duration: 0.5 }}
       className="min-h-screen overflow-hidden relative flex flex-col justify-center bg-background text-foreground font-body"
     >
+      <Joyride
+        steps={steps}
+        run={hasSeenLoginTour}
+        continuous={true}
+        showProgress={true}
+        showSkipButton={true}
+        styles={{
+          options: {
+            primaryColor: '#4F46E5',
+            zIndex: 1000,
+          },
+          tooltipContainer: {
+            textAlign: 'left',
+          },
+        }}
+        callback={handleJoyrideCallback}
+      />
       {loading && <LoadingScreen />}
       
       <div className="w-full min-h-screen max-w-[900px] flex mx-auto justify-center items-center relative">
@@ -101,9 +160,9 @@ const Login = ({ role }) => {
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ duration: 0.5 }}
-          className="w-full md:max-w-md p-6 space-y-4"
+          className="w-full md:max-w-md p-6 space-y-6"
         >
-          <div className="flex flex-col items-start space-y-4">
+          <div className="login-header flex flex-col items-start space-y-4">
             <div className="font-roboto-slab flex items-center gap-2 uppercase font-bold text-[0.7rem] leading-none font-heading">
               <img
                 src="/south.logo.jpg"
@@ -119,71 +178,69 @@ const Login = ({ role }) => {
               Login
             </h2>
           </div>
-          <form onSubmit={handleSubmit} className="space-y-3">
-            <div>
-              <Input
-                type="text"
-                name="username"
-                id="username"
-                placeholder="Username"
-                value={username}
-                onChange={(e) => setUsername(e.target.value)}
-                error={errors.username}
-              />
-              {errors.username && (
-                <p className="text-destructive text-xs mt-1">
-                  {errors.username}
-                </p>
-              )}
-            </div>
-            <div>
-              <Input
-                type="password"
-                name="password"
-                id="password"
-                placeholder="Password"
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
-                error={errors.password}
-              />
-              {errors.password && (
-                <p className="text-destructive text-xs mt-1">
-                  {errors.password}
-                </p>
-              )}
-            </div>
-
-            {/* Add these elements */}
-            <div className="flex items-center justify-between">
-              <div className="flex items-center">
-                <input
-                  type="checkbox"
-                  id="keepSignedIn"
-                  checked={keepSignedIn}
-                  onChange={(e) => setKeepSignedIn(e.target.checked)}
-                  className="h-4 w-4 text-primary border-gray-300 rounded focus:ring-primary"
+          <form onSubmit={handleSubmit} className="login-form space-y-6">
+            <div className="space-y-4">
+              <div className="space-y-2">
+                <Input
+                  type="text"
+                  name="username"
+                  id="username"
+                  placeholder="Username"
+                  value={username}
+                  onChange={(e) => setUsername(e.target.value)}
+                  error={errors.username}
                 />
-                <label htmlFor="keepSignedIn" className="ml-2 text-sm text-gray-600">
-                  Remember me
-                </label>
+                {errors.username && (
+                  <p className="text-destructive text-xs">{errors.username}</p>
+                )}
               </div>
+
+              <div className="space-y-2">
+                <Input
+                  type="password"
+                  name="password"
+                  id="password"
+                  placeholder="Password"
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
+                  error={errors.password}
+                />
+                {errors.password && (
+                  <p className="text-destructive text-xs">{errors.password}</p>
+                )}
+              </div>
+
+              <div className="remember-section flex items-center justify-between mt-4">
+                <div className="flex items-center">
+                  <input
+                    type="checkbox"
+                    id="keepSignedIn"
+                    checked={keepSignedIn}
+                    onChange={(e) => setKeepSignedIn(e.target.checked)}
+                    className="h-4 w-4 text-primary border-gray-300 rounded focus:ring-primary"
+                  />
+                  <label htmlFor="keepSignedIn" className="ml-2 text-sm text-gray-600">
+                    Remember me
+                  </label>
+                </div>
+                <button
+                  type="button"
+                  onClick={() => setShowForgotPasswordModal(true)}
+                  className="forgot-password text-sm text-primary hover:underline"
+                >
+                  Forgot password?
+                </button>
+              </div>
+
               <button
-                type="button"
-                onClick={() => setShowForgotPasswordModal(true)}
-                className="text-sm text-primary hover:underline"
+                type="submit"
+                className="login-button w-full py-2 px-4 bg-primary text-white rounded-md mt-6"
               >
-                Forgot password?
+                Login
               </button>
             </div>
-
-            <button
-              type="submit"
-              className="w-full py-2 px-4 bg-primary text-white rounded-md"
-            >
-              Login
-            </button>
           </form>
-          <p className="text-center text-sm">
+          <footer className="register-link text-center text-sm mt-4">
             Don't have an account?{" "}
             <span
               onClick={() => navigate("/register")}
@@ -191,7 +248,7 @@ const Login = ({ role }) => {
             >
               Register
             </span>
-          </p>
+          </footer>
         </motion.div>
       </div>
       {showForgotPasswordModal && (
@@ -204,13 +261,13 @@ const Login = ({ role }) => {
         <div className="relative group">
           <button
             type="button"
-            onClick={() => setShowUserGuideModal(true)}
+            onClick={handleUserGuideRedirect}
             className="p-3 bg-secondary text-white rounded-full shadow-lg"
           >
             <FaQuestionCircle size={24} />
           </button>
           <div className="absolute bottom-full mb-2 hidden group-hover:block bg-black text-white text-xs rounded py-1 px-2">
-            User Guide
+            Start Tour
           </div>
         </div>
       </div>
