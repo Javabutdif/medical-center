@@ -152,6 +152,30 @@ const Login = ({ role }) => {
                 </p>
               )}
             </div>
+
+            {/* Add these elements */}
+            <div className="flex items-center justify-between">
+              <div className="flex items-center">
+                <input
+                  type="checkbox"
+                  id="keepSignedIn"
+                  checked={keepSignedIn}
+                  onChange={(e) => setKeepSignedIn(e.target.checked)}
+                  className="h-4 w-4 text-primary border-gray-300 rounded focus:ring-primary"
+                />
+                <label htmlFor="keepSignedIn" className="ml-2 text-sm text-gray-600">
+                  Remember me
+                </label>
+              </div>
+              <button
+                type="button"
+                onClick={() => setShowForgotPasswordModal(true)}
+                className="text-sm text-primary hover:underline"
+              >
+                Forgot password?
+              </button>
+            </div>
+
             <button
               type="submit"
               className="w-full py-2 px-4 bg-primary text-white rounded-md"

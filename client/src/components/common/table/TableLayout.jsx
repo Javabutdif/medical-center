@@ -4,6 +4,7 @@ import Search from "../Search";
 import Pagination from "./Pagination";
 
 const TableLayout = ({
+  style,
   loading, // boolean that tells us if data is still being fetched
   columns, // table column definitions
   data,    // patient data array to display in the table
@@ -63,7 +64,7 @@ const TableLayout = ({
       ) : (
         // If not loading, show the table with filtered data
         <>
-          <Table style={"mt-4"} columns={columns} data={currentItems} />
+          <Table style={style} columns={columns} data={currentItems} />
           <Pagination
             totalItems={totalItems}
             itemsPerPage={itemsPerPage}

@@ -133,6 +133,7 @@ const PatientProfile = () => {
   return (
     <>
       <TableLayout
+        style={'mt-4'}
         columns={columns}
         data={data}
         modals={
