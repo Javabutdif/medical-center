@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
-import Search from "../../components/common/Search";
-import Table from "../../components/common/table/Table";
+import { showToast } from "../../components/helper/alert_helper";
+import { useSnackbar } from "notistack"; // Import useSnackbar
 import {
   fetchAllPatients,
   updatedPatientApi,
@@ -20,6 +20,7 @@ const PatientProfile = () => {
   const [isEditModalOpen, setIsEditModalOpen] = useState(false);
   const [isUploadModalOpen, setIsUploadModalOpen] = useState(false);
   const [loading, setLoading] = useState(false);
+  const { enqueueSnackbar, closeSnackbar } = useSnackbar();
 
   const handleFetchAllPatients = async () => {
     setLoading(true);
@@ -55,6 +56,8 @@ const PatientProfile = () => {
 
   const confirmDelete = async () => {
     if (await deletePatient(selectedPatient)) {
+      showToast(enqueueSnackbar, "success", "Deleted Patient");
+      handleFetchAllPatients();
       setIsModalOpen(false);
     }
   };

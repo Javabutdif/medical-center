@@ -21,7 +21,7 @@ const Dashboard = () => {
       content: (
         <div className="space-y-2">
           <ol className="list-decimal list-inside pl-4 space-y-1">
-            <li>Visit the login page through pxi.chonghua.com.ph</li>
+            <li>Visit the login page through swumed.com</li>
             <li>Enter your username (usually your email address)</li>
             <li>Enter your password</li>
             <li>Click the "Login" button</li>
@@ -54,7 +54,7 @@ const Dashboard = () => {
             <h4 className="font-medium mb-2">Manual Registration</h4>
             <p className="mb-2">Only patients with previous transactions in the hospital can manually register:</p>
             <ol className="list-decimal list-inside pl-4 space-y-1">
-              <li>Access PXI through pxi.chonghua.com.ph or chonghua.com.ph</li>
+              <li>Access PXI through swumed.com</li>
               <li>Tap or click Login</li>
               <li>Tap or click Register</li>
               <li>Enter necessary Patient Information</li>
@@ -64,7 +64,7 @@ const Dashboard = () => {
           </div>
           <div>
             <h4 className="font-medium mb-2">Auto Registration</h4>
-            <p>New patients with a registered mobile number and email address will automatically receive a username and default password upon creation of a Hospital record.</p>
+            <p>New patients with a registered email address will automatically receive a One Time Pin upon creation of a Hospital record.</p>
           </div>
         </div>
       )
@@ -73,7 +73,7 @@ const Dashboard = () => {
       title: "How do I access my online test results?",
       content: (
         <ol className="list-decimal list-inside pl-4 space-y-1">
-          <li>Tap or click Online Test Results</li>
+          <li>Tap or click Medical Records</li>
           <li>Tap or click the type of diagnostic result you want to view</li>
           <li>To view each result individually, tap or click View beside the preferred procedure (opens in new tab)</li>
           <li>When using a mobile device, scroll down to view the list of results</li>

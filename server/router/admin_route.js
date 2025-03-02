@@ -61,12 +61,14 @@ router.delete(
   async (req, res) => {
     const { patient_id } = req.params;
 
-    try {
-      const deletePatient = await User.deleteOne({ patient_id });
+    console.log(patient_id);
 
-      if (deletePatient.modifiedCount > 0) {
+    try {
+      const deletePatient = await User.deleteOne({ patient_id: patient_id });
+      console.log(deletePatient);
+      
         res.status(200).json({ message: "Patient deleted successfully" });
-      }
+      
     } catch (error) {
       console.error(error);
     }

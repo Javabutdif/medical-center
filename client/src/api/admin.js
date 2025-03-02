@@ -59,7 +59,7 @@ export const deletePatient = async (id) => {
         },
       }
     );
-    return response.status === 200;
+    return response.status === 200 ? true : false;
   } catch (error) {
     if (error.response && error.response.data) {
       return false;
