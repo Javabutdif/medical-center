@@ -134,5 +134,27 @@ router.get("/admin/get-all-laboratory", authenticateToken, async (req, res) => {
     res.status(500).json({ message: "Internal Server Error" });
   }
 });
+router.get("/admin/dashboard-count", async (req, res) => {
+  try {
+    const user_count = await User.countDocuments();
+    const lab_count = await Image.countDocuments({ sectionType: "Laboratory" });
+    const special_count = await Image.countDocuments({
+      sectionType: "Special Imaging",
+    });
+    const male_count = await User.countDocuments({ gender: "male" });
+    const female_count = await User.countDocuments({ gender: "female" });
+
+    res.json({
+      user_count,
+      lab_count,
+      special_count,
+      male_count,
+      female_count,
+    });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: "Internal Server Error" });
+  }
+});
 
 module.exports = router;

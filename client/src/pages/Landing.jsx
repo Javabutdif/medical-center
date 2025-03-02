@@ -5,7 +5,7 @@ import logo from '../../public/south.logo.jpg'
 
 const Landing = () => {
   const words = [
-    "Welcome", "to", "the", "Southwestern", "University", "Medical", "Center", "Mount", "Grace", "Partner"
+    "Welcome", "to", "the", "Southwestern", "University", "Medical", "Center",
   ];
 
   const container = {

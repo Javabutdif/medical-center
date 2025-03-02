@@ -17,8 +17,9 @@ module.exports = {
         body: ['Roboto', 'sans-serif'], // Use Roboto for body text
       },
       minHeight: {
-        'screen/2': 'calc(100vh - 300px)',
-        'screen/main': 'calc(100vh - 56px)',
+        'screen/2xl': 'calc(100vh - 450px)',
+        'screen/lg': 'calc(100vh - 550px)',
+        'screen/main': 'calc(100vh - 100px)',
       },
     },
   },

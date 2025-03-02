@@ -19,6 +19,10 @@ const adminSchema = new Schema({
     type: String,
     required: true,
   },
+  hasSeenTour: {
+    type: Boolean,
+    default: false,
+  },
 });
 
 const Admin = mongoose.model("Admin", adminSchema, "admin");

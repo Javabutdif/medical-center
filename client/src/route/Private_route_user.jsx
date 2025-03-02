@@ -19,8 +19,12 @@ const Private_route_user = ({ element: Component, setRole }) => {
           },
         }
       );
-
-      setInformationData(response.data.user, response.data.role);
+      console.log("private route" + response.data.hasSeenTour);
+      setInformationData(
+        response.data.user,
+        response.data.role,
+        response.data.hasSeenTour
+      );
 
       if (response.data.role === "User") {
         setIsAuthenticated(true);

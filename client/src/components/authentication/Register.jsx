@@ -1,14 +1,17 @@
 import React, { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom"; // Import useNavigate
 import { motion } from "framer-motion"; // Import Framer Motion
-import { FaArrowLeft } from "react-icons/fa"; // Import the icon
+import { FaArrowLeft, FaQuestionCircle } from "react-icons/fa"; // Import the icons
 import Input from "../common/Input"; // Import the reusable Input component
 import logo from "../../../public/south.logo.jpg";
 import bgImage from "../../assets/Slider-1-1-Photoroom (1).png";
 import { register, fetchOtp } from "../../api/register";
 import OTPModal from "../modal/OTPModal";
+import UserGuideModal from "../modal/UserGuideModal"; // Import UserGuideModal
+import Joyride, { STATUS } from 'react-joyride';  // Add STATUS to import
 
 const Register = () => {
+  const navigate = useNavigate(); // Initialize useNavigate
   const [step, setStep] = useState(1);
   const [username, setUsername] = useState("");
   const [firstName, setFirstName] = useState("");
@@ -25,6 +28,29 @@ const Register = () => {
   const [errors, setErrors] = useState({});
   const [otpModal, setOtpModal] = useState(false);
   const [otpServer, setOtpServer] = useState("");
+  const [showUserGuideModal, setShowUserGuideModal] = useState(false); // State for modal visibility
+  const [hasSeenRegisterTour, setHasSeenRegisterTour] = useState(false);
+
+  const steps = [
+    {
+      target: '.register-header',
+      content: 'Welcome to our Registration Page! Here you can create your new account.',
+      disableBeacon: true,
+    },
+    {
+      target: '.personal-info',
+      content: 'Fill in your personal information such as name, gender, and birthday.',
+      placement: 'bottom',
+    },
+    {
+      target: '.proceed-btn',
+      content: 'After filling your personal information, click here to proceed to the next step.',
+    },
+    {
+      target: '.login-link',
+      content: 'Already have an account? You can login here instead.',
+    },
+  ];
 
   const handleOtpModal = () => {
     setOtpModal(true);
@@ -80,6 +106,7 @@ const Register = () => {
           password
         )
       ) {
+        navigate("/login"); // Navigate to login page after successful registration
       }
     }
   };
@@ -88,11 +115,25 @@ const Register = () => {
     e.preventDefault();
 
     try {
-      const response = await fetchOtp(email, firstName, lastName);
-      setOtpServer(response);
-      handleOtpModal();
+      const response = await fetchOtp(email, firstName, lastName, "register");
+      console.log(response);
+      if (response !== false) {
+        setOtpServer(response);
+        handleOtpModal();
+      }
     } catch (error) {
       console.error(error);
+    }
+  };
+
+  const handleUserGuideRedirect = () => {
+    setHasSeenRegisterTour(true);
+  };
+
+  const handleJoyrideCallback = (data) => {
+    const { status } = data;
+    if (status === STATUS.FINISHED || status === STATUS.SKIPPED) {
+      setHasSeenRegisterTour(false);
     }
   };
 
@@ -104,6 +145,24 @@ const Register = () => {
       transition={{ duration: 0.5 }} // Update transition to fade-in effect
       className="overflow-hidden min-h-screen flex justify-center items-center font-body"
     >
+      <Joyride
+        steps={steps}
+        run={hasSeenRegisterTour}
+        continuous={true}
+        showProgress={true}
+        showSkipButton={true}
+        styles={{
+          options: {
+            primaryColor: '#4F46E5',
+            zIndex: 1000,
+          },
+          tooltipContainer: {
+            textAlign: 'left',
+          },
+        }}
+        callback={handleJoyrideCallback}
+      />
+
       <div className="container mx-auto flex justify-center relative">
         {step === 2 && (
           <button
@@ -120,7 +179,7 @@ const Register = () => {
           transition={{ duration: 0.5 }} // Update transition to fade-in effect
           className="w-full max-w-md p-6 space-y-4"
         >
-          <header className="flex flex-col items-start space-y-4">
+          <header className="register-header flex flex-col items-start space-y-4">
             <div
               to="/"
               className="flex gap-2 text-xs items-center font-bold font-anton uppercase max-w-14 tracking-wide font-heading"
@@ -138,10 +197,10 @@ const Register = () => {
               Register
             </h2>
           </header>
-          <form onSubmit={fetchOtpFromServer} className="space-y-3">
+          <form onSubmit={fetchOtpFromServer} className="space-y-6">
             {step === 1 && (
-              <>
-                <div>
+              <div className="personal-info space-y-4">
+                <div className="space-y-2">
                   <Input
                     type="text"
                     name="firstName"
@@ -151,8 +210,11 @@ const Register = () => {
                     onChange={(e) => setFirstName(e.target.value)}
                     error={errors.firstName}
                   />
+                  {errors.firstName && (
+                    <p className="text-destructive text-xs">{errors.firstName}</p>
+                  )}
                 </div>
-                <div>
+                <div className="space-y-2">
                   <Input
                     type="text"
                     name="middleName"
@@ -162,7 +224,7 @@ const Register = () => {
                     onChange={(e) => setMiddleName(e.target.value)}
                   />
                 </div>
-                <div>
+                <div className="space-y-2">
                   <Input
                     type="text"
                     name="lastName"
@@ -173,7 +235,7 @@ const Register = () => {
                     error={errors.lastName}
                   />
                 </div>
-                <div>
+                <div className="space-y-2">
                   <Input
                     type="text"
                     name="suffix"
@@ -183,7 +245,7 @@ const Register = () => {
                     onChange={(e) => setSuffix(e.target.value)}
                   />
                 </div>
-                <div>
+                <div className="space-y-2">
                   <select
                     name="gender"
                     id="gender"
@@ -201,7 +263,7 @@ const Register = () => {
                     </p>
                   )}
                 </div>
-                <div>
+                <div className="space-y-2">
                   <Input
                     type="date"
                     name="birthday"
@@ -215,15 +277,15 @@ const Register = () => {
                 <button
                   type="button"
                   onClick={handleNextStep}
-                  className="w-full py-2 px-4 bg-primary text-white rounded-md"
+                  className="proceed-btn w-full py-2 px-4 bg-primary text-white rounded-md mt-6"
                 >
                   Proceed
                 </button>
-              </>
+              </div>
             )}
             {step === 2 && (
-              <>
-                <div>
+              <div className="contact-info space-y-4">
+                <div className="space-y-2">
                   <Input
                     type="email"
                     name="email"
@@ -233,8 +295,11 @@ const Register = () => {
                     onChange={(e) => setEmail(e.target.value)}
                     error={errors.email}
                   />
+                  {errors.email && (
+                    <p className="text-destructive text-xs">{errors.email}</p>
+                  )}
                 </div>
-                <div>
+                <div className="space-y-2">
                   <Input
                     type="text"
                     name="mobileNumber"
@@ -245,7 +310,7 @@ const Register = () => {
                     error={errors.mobileNumber}
                   />
                 </div>
-                <div>
+                <div className="space-y-2">
                   <Input
                     type="text"
                     name="username"
@@ -255,7 +320,7 @@ const Register = () => {
                     onChange={(e) => setUsername(e.target.value)}
                   />
                 </div>
-                <div>
+                <div className="space-y-2">
                   <Input
                     type="password"
                     name="password"
@@ -266,7 +331,7 @@ const Register = () => {
                     error={errors.password}
                   />
                 </div>
-                <div>
+                <div className="space-y-2">
                   <Input
                     type="password"
                     name="confirmPassword"
@@ -277,7 +342,7 @@ const Register = () => {
                     error={errors.confirmPassword}
                   />
                 </div>
-                <div className="flex items-center">
+                <div className="flex items-center mt-6">
                   <input
                     type="checkbox"
                     id="terms"
@@ -297,15 +362,15 @@ const Register = () => {
                 </div>
                 <button
                   type="submit"
-                  className="w-full py-2 px-4 bg-primary text-white rounded-md"
+                  className="w-full py-2 px-4 bg-primary text-white rounded-md mt-6"
                   disabled={!termsAccepted}
                 >
                   Register
                 </button>
-              </>
+              </div>
             )}
           </form>
-          <footer className="text-center text-sm">
+          <footer className="login-link text-center text-sm">
             Already have an account?{" "}
             <Link to="/login" className="text-primary">
               Login
@@ -321,6 +386,23 @@ const Register = () => {
             />
           </>
         )}
+        {showUserGuideModal && (
+          <UserGuideModal onClose={() => setShowUserGuideModal(false)} /> // Render modal conditionally
+        )}
+        <div className="fixed bottom-4 right-4">
+          <div className="relative group">
+            <button
+              type="button"
+              onClick={handleUserGuideRedirect}
+              className="p-3 bg-secondary text-white rounded-full shadow-lg"
+            >
+              <FaQuestionCircle size={24} />
+            </button>
+            <div className="absolute bottom-full mb-2 hidden group-hover:block bg-black text-white text-xs rounded py-1 px-2">
+              Start Tour
+            </div>
+          </div>
+        </div>
       </div>
     </motion.div>
   );

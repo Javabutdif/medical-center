@@ -36,46 +36,42 @@ const OTPModal = ({ closeModal, onVerifyOTP, otpServer }) => {
     console.log(Number(otp) === otpServer);
     if (Number(otp) === Number(otpServer)) {
       onVerifyOTP();
-
+      
       closeModal();
     }
   };
 
   return (
-    <div className="bg-accent rounded-lg shadow-xl w-96 p-8">
-      <h2 className="text-2xl font-heading font-semibold text-primary mb-4">
-        Enter OTP
-      </h2>
-      <p className="text-muted text-sm text-center mb-6">
-        Please enter the 6-digit OTP sent to your registered email address.
-      </p>
-      <div className="flex justify-center space-x-3">
-        {otpValues.map((value, index) => (
-          <input
-            key={index}
-            type="text"
-            maxLength="1"
-            value={value}
-            onChange={(e) => handleInputChange(e, index)}
-            onKeyDown={(e) => handleKeyDown(e, index)}
-            ref={(el) => (inputRefs.current[index] = el)}
-            className="w-12 h-12 text-center border border-muted rounded-md focus:outline-none focus:ring-2 focus:ring-secondary"
-          />
-        ))}
-      </div>
-      <div className="flex justify-between mt-8">
-        <button
-          onClick={closeModal}
-          className="px-6 py-2 rounded-md border border-muted text-primary hover:bg-muted transition"
-        >
-          Cancel
-        </button>
-        <button
-          onClick={handleSubmit}
-          className="px-6 py-2 rounded-md bg-primary text-accent hover:bg-dark transition"
-        >
-          Verify
-        </button>
+    <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50">
+      <div className="bg-accent rounded-lg shadow-xl w-96 p-8">
+        <h2 className="text-2xl font-heading font-semibold text-primary mb-4">
+          Enter OTP
+        </h2>
+        <p className="text-muted text-sm text-center mb-6">
+          Please enter the 6-digit OTP sent to your registered email address.
+        </p>
+        <div className="flex justify-center space-x-3">
+          {otpValues.map((value, index) => (
+            <input
+              key={index}
+              type="text"
+              maxLength="1"
+              value={value}
+              onChange={(e) => handleInputChange(e, index)}
+              onKeyDown={(e) => handleKeyDown(e, index)}
+              ref={(el) => (inputRefs.current[index] = el)}
+              className="w-12 h-12 text-center border border-muted rounded-md focus:outline-none focus:ring-2 focus:ring-secondary"
+            />
+          ))}
+        </div>
+        <div className="flex justify-between mt-8">
+          <button
+            onClick={handleSubmit}
+            className="w-full px-6 py-2 rounded-md bg-primary text-accent hover:bg-dark transition"
+          >
+            Verify
+          </button>
+        </div>
       </div>
     </div>
   );
