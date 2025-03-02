@@ -52,6 +52,8 @@ const SpecialImaging = () => {
 
   // Columns for the table
   const columns = [
+    { path: "patient_id", label: "ID" },
+    { path: "patient_name", label: "Patient Name" },
     { path: "examDescription", label: "Exam Description" },
     { path: "examDate", label: "Exam Date" },
     { path: "sectionType", label: "Section" },

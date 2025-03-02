@@ -81,12 +81,7 @@ export const upload_picture = async (formData, id) => {
         },
       }
     );
-    if (response.status === 200) {
-      console.log(response.data.message);
-      return response.status === 200;
-    } else {
-      console.log(response.data.message);
-    }
+    return response.status === 200 ? true : false;
   } catch (error) {
     console.error("Error:", error.response.data.message);
 

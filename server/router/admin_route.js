@@ -66,9 +66,8 @@ router.delete(
     try {
       const deletePatient = await User.deleteOne({ patient_id: patient_id });
       console.log(deletePatient);
-      
-        res.status(200).json({ message: "Patient deleted successfully" });
-      
+
+      res.status(200).json({ message: "Patient deleted successfully" });
     } catch (error) {
       console.error(error);
     }
@@ -84,16 +83,16 @@ router.post(
     const { path } = req.file;
     const { examDescription, sectionType } = req.body;
     try {
+      const patient_data = await User.findOne({ patient_id: id });
       const uploadImageData = new Image({
         patient_id: id,
+        patient_name: `${patient_data.firstname} ${patient_data.lastname}`,
         image: path,
         examDescription,
         sectionType,
         examDate: Date.now(),
       });
       uploadImageData.save();
-
-      const patient_data = await User.findOne({ patient_id: id });
 
       if (uploadImageData && patient_data) {
         await sendNotification(

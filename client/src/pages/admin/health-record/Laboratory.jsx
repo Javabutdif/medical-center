@@ -3,7 +3,7 @@ import Search from "../../../components/common/Search";
 import Table from "../../../components/common/table/Table";
 import { fetchAllLaboratory } from "../../../api/admin";
 import { server_connection } from "../../../connections/server_connection";
-import Modal from "../../../components/common/Modal";  // Import the Modal component
+import Modal from "../../../components/common/Modal"; // Import the Modal component
 import { FaEye } from "react-icons/fa";
 import TableLayout from "../../../components/common/table/TableLayout";
 
@@ -16,8 +16,8 @@ const Laboratory = () => {
 
   // Fetch all laboratory data
   const getAllLaboratories = async () => {
-    try{
-    const response = await fetchAllLaboratory();
+    try {
+      const response = await fetchAllLaboratory();
       setData(response);
     } catch (error) {
       console.error(error);
@@ -52,6 +52,8 @@ const Laboratory = () => {
 
   // Columns for the table
   const columns = [
+    { path: "patient_id", label: "ID" },
+    { path: "patient_name", label: "Patient Name" },
     { path: "examDescription", label: "Exam Description" },
     { path: "examDate", label: "Exam Date" },
     { path: "sectionType", label: "Section" },
@@ -64,43 +66,44 @@ const Laboratory = () => {
           className="flex flex-col justify-center items-center text-blue-500 text-2xl *:hover:underline"
           onClick={() => openModal(record.image)}
         >
-                  <FaEye />
-            <span className="text-xs"> {/* Changed to text-xs for even smaller text */}
+          <FaEye />
+          <span className="text-xs">
+            {" "}
+            {/* Changed to text-xs for even smaller text */}
             view
-            </span>
-         </button>
+          </span>
+        </button>
       ),
     },
   ];
 
   return (
     <>
-	  <TableLayout 
-    style={'mt-4 overflow-auto'}
-		columns={columns}
-		data={data}	  
-	  	modals={(
-			<Modal
-				isOpen={isModalOpen}
-				onClose={closeModal}
-				onConfirm={handleDownload} // Trigger download on confirm
-				buttonStyle="bg-blue-500 hover:bg-blue-600 text-white"
-			>
-				<div className="text-start">
-				<p className="text-lg font-medium text-gray-700 mb-4">
-					You are about to download the file
-				</p>
-				<p className="text-sm text-gray-500">
-					Please confirm that you would like to proceed with the download.
-				</p>
-				</div>
-			</Modal>
-		)}
-	  />
-      
+      <TableLayout
+        style={"mt-4 overflow-auto"}
+        columns={columns}
+        data={data}
+        modals={
+          <Modal
+            isOpen={isModalOpen}
+            onClose={closeModal}
+            onConfirm={handleDownload} // Trigger download on confirm
+            buttonStyle="bg-blue-500 hover:bg-blue-600 text-white"
+          >
+            <div className="text-start">
+              <p className="text-lg font-medium text-gray-700 mb-4">
+                You are about to download the file
+              </p>
+              <p className="text-sm text-gray-500">
+                Please confirm that you would like to proceed with the download.
+              </p>
+            </div>
+          </Modal>
+        }
+      />
+
       {/* Modal to show selected image and trigger download */}
-      
-    </	>
+    </>
   );
 };
 

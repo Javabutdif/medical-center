@@ -162,7 +162,7 @@ const Profile = () => {
         <div className="grid grid-cols-3 gap-4 mb-4">
           <div>
             <label className="block mb-2 text-sm sm:text-base">
-              <b>DOB</b>
+              <b>Date of Birth</b>
             </label>
             <Input
               type="text"

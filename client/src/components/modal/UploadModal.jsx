@@ -2,45 +2,49 @@ import React, { useState } from "react";
 import { FaTimes } from "react-icons/fa";
 import Modal from "../../components/common/Modal"; // Import Modal
 import { upload_picture } from "../../api/admin";
+import { showToast } from "../../components/helper/alert_helper";
+import { useSnackbar } from "notistack"; // Import useSnackbar
 
 const UploadModal = ({ isOpen, onClose, patient }) => {
-	const [isConfirmModalOpen, setIsConfirmModalOpen] = useState(false);
-	const [selectedImage, setSelectedImage] = useState(null);
-	const [formData, setFormData] = useState({
-		patient_id: patient?.patient_id || "",
-		examDescription: "",
-		sectionType: "",
-		selectedImage: null,
-	});
+  const [isConfirmModalOpen, setIsConfirmModalOpen] = useState(false);
+  const { enqueueSnackbar, closeSnackbar } = useSnackbar();
+  const [selectedImage, setSelectedImage] = useState(null);
+  const [formData, setFormData] = useState({
+    patient_id: patient?.patient_id || "",
+    examDescription: "",
+    sectionType: "",
+    selectedImage: null,
+  });
 
-	const handleChange = (e) => {
-		const { name, value, files } = e.target;
+  const handleChange = (e) => {
+    const { name, value, files } = e.target;
 
-		setFormData((prev) => ({
-			...prev,
-			[name]: files ? files[0] : value,
-		}));
+    setFormData((prev) => ({
+      ...prev,
+      [name]: files ? files[0] : value,
+    }));
 
-		if (files) {
-			setSelectedImage(files[0]);
-		}
-	};
+    if (files) {
+      setSelectedImage(files[0]);
+    }
+  };
 
-	const handleUploadClick = (e) => {
-		e.preventDefault();
-		setIsConfirmModalOpen(true);
-	};
+  const handleUploadClick = (e) => {
+    e.preventDefault();
+    setIsConfirmModalOpen(true);
+  };
 
-	const handleConfirmUpload = async () => {
-		console.log(formData);
-		if (await upload_picture(formData, patient?.patient_id)) {
-			setIsConfirmModalOpen(false);
+  const handleConfirmUpload = async () => {
+    if (await upload_picture(formData, patient?.patient_id)) {
+      const key = showToast(enqueueSnackbar, "success", "Upload Successful");
+      setTimeout(() => closeSnackbar(key), 2000);
+      setIsConfirmModalOpen(false);
 
-			onClose();
-		}
-	};
+      onClose();
+    }
+  };
 
-	if (!isOpen) return null;
+  if (!isOpen) return null;
 
   return (
     <div className="fixed inset-0 bg-gray-600 bg-opacity-50 flex items-center justify-center">
@@ -76,7 +80,8 @@ const UploadModal = ({ isOpen, onClose, patient }) => {
                     name="sectionType"
                     value={formData.sectionType}
                     onChange={handleChange}
-                    className="w-full px-3 py-2 border border-gray-300 rounded">
+                    className="w-full px-3 py-2 border border-gray-300 rounded"
+                  >
                     <option value="">Select Section Type</option>
                     <option value="Special Imaging">Special Imaging</option>
                     <option value="Laboratory">Laboratory</option>
@@ -108,12 +113,14 @@ const UploadModal = ({ isOpen, onClose, patient }) => {
         <div className="bg-gray-50 px-4 py-3 sm:px-6 sm:flex sm:flex-row-reverse">
           <button
             onClick={handleUploadClick}
-            className="w-full inline-flex justify-center rounded-md border border-transparent shadow-sm px-4 py-2 bg-blue-600 text-base font-medium text-white hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 sm:ml-3 sm:w-auto sm:text-sm">
+            className="w-full inline-flex justify-center rounded-md border border-transparent shadow-sm px-4 py-2 bg-blue-600 text-base font-medium text-white hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 sm:ml-3 sm:w-auto sm:text-sm"
+          >
             Upload
           </button>
           <button
             onClick={onClose}
-            className="mt-3 w-full inline-flex justify-center rounded-md border border-gray-300 shadow-sm px-4 py-2 bg-white text-base font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 sm:mt-0 sm:w-auto sm:text-sm">
+            className="mt-3 w-full inline-flex justify-center rounded-md border border-gray-300 shadow-sm px-4 py-2 bg-white text-base font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 sm:mt-0 sm:w-auto sm:text-sm"
+          >
             Cancel
           </button>
         </div>
@@ -122,7 +129,8 @@ const UploadModal = ({ isOpen, onClose, patient }) => {
         isOpen={isConfirmModalOpen}
         title="Confirm Upload"
         onClose={() => setIsConfirmModalOpen(false)}
-        onConfirm={handleConfirmUpload}>
+        onConfirm={handleConfirmUpload}
+      >
         <p className="font-body">Are you sure you want to upload the data?</p>
       </Modal>
     </div>
