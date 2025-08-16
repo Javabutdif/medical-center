@@ -76,7 +76,7 @@ const Laboratory = () => {
   return (
     <>
 	  <TableLayout 
-    style={'mt-4 overflow-auto'}
+    style={'mt-4 overflow-auto pb-10'}
 		columns={columns}
 		data={data}	  
 	  	modals={(

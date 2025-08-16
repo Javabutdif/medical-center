@@ -113,14 +113,26 @@ const DashboardLayout = () => {
       },
     },
     {
-      target: ".navigation-items",
-      title: "Main Navigation",
-      content: isAdmin
-        ? "Your admin tools include:\n• Home Dashboard\n• Healthcare Records Management\n• Patient Profile Management\n• System Settings"
-        : "Your portal navigation includes:\n• Dashboard - Overview of your medical status\n• Profile - Personal information\n• Medical Reports - View your health records",
-      placement: "right",
-      disableBeacon: true,
-    },
+        target: ".navigation-items",
+        title: "Main Navigation",
+        content: isAdmin
+          ? "Your admin tools include:\n• Home Dashboard\n• Healthcare Records Management\n• Patient Profile Management\n• System Settings"
+          : "Your portal navigation includes:\n• Dashboard - Overview of your medical status\n• Profile - Personal information\n• Medical Reports - View your health records",
+        placement: "right",
+        disableBeacon: true,
+        styles: {
+          options: {
+            width: 350,   // control tooltip width here
+            zIndex: 10000,
+          },
+          tooltip: {
+            maxWidth: "400px", // fallback for long text
+            fontSize: "14px",
+            lineHeight: "1.6",
+            whiteSpace: "pre-line",
+          },
+        },
+      },
     {
       target: ".user-profile-section",
       title: "Account Management",

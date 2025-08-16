@@ -51,7 +51,7 @@ const TableLayout = ({
   };
 
   return (
-    <div className="px-6 md:px-9">
+    <div className="px-6 md:px-9 pb-20">
       <Search placeholder="Search patients..." onSearch={handleSearch} />
 
       {/* Loading State */}

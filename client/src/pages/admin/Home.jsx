@@ -25,7 +25,7 @@ const Home = () => {
     female: data.female_count, // Total number of females
   };
   return (
-    <div className="min-h-screen/main flex flex-col justify-start items-center gap-8 px-4 pb-8">
+    <div className="min-h-screen/main flex flex-col justify-start items-center gap-8 px-4 pb-10">
       {/* Counters Grid */}
       <div className="self-end w-full max-w-5xl grid grid-cols-2 lg:grid-cols-3 gap-6">
         <div className="col-span-2 lg:col-span-1">
