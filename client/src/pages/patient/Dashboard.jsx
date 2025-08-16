@@ -21,7 +21,7 @@ const Dashboard = () => {
       content: (
         <div className="space-y-2">
           <ol className="list-decimal list-inside pl-4 space-y-1">
-            <li>Visit the login page through pxi.chonghua.com.ph</li>
+            <li>Visit the login page through swumed.com</li>
             <li>Enter your username (usually your email address)</li>
             <li>Enter your password</li>
             <li>Click the "Login" button</li>
@@ -46,29 +46,29 @@ const Dashboard = () => {
         </div>
       )
     },
-    {
-      title: "How do I register a PXI Account?",
-      content: (
-        <div className="space-y-4">
-          <div>
-            <h4 className="font-medium mb-2">Manual Registration</h4>
-            <p className="mb-2">Only patients with previous transactions in the hospital can manually register:</p>
-            <ol className="list-decimal list-inside pl-4 space-y-1">
-              <li>Access PXI through pxi.chonghua.com.ph or chonghua.com.ph</li>
-              <li>Tap or click Login</li>
-              <li>Tap or click Register</li>
-              <li>Enter necessary Patient Information</li>
-              <li>Tap or click Submit</li>
-              <li>Follow the verification process</li>
-            </ol>
-          </div>
-          <div>
-            <h4 className="font-medium mb-2">Auto Registration</h4>
-            <p>New patients with a registered mobile number and email address will automatically receive a username and default password upon creation of a Hospital record.</p>
-          </div>
-        </div>
-      )
-    },
+    // {
+    //   title: "How do I register a PXI Account?",
+    //   content: (
+    //     <div className="space-y-4">
+    //       <div>
+    //         <h4 className="font-medium mb-2">Manual Registration</h4>
+    //         <p className="mb-2">Only patients with previous transactions in the hospital can manually register:</p>
+    //         <ol className="list-decimal list-inside pl-4 space-y-1">
+    //           <li>Access PXI through pxi.chonghua.com.ph or chonghua.com.ph</li>
+    //           <li>Tap or click Login</li>
+    //           <li>Tap or click Register</li>
+    //           <li>Enter necessary Patient Information</li>
+    //           <li>Tap or click Submit</li>
+    //           <li>Follow the verification process</li>
+    //         </ol>
+    //       </div>
+    //       <div>
+    //         <h4 className="font-medium mb-2">Auto Registration</h4>
+    //         <p>New patients with a registered mobile number and email address will automatically receive a username and default password upon creation of a Hospital record.</p>
+    //       </div>
+    //     </div>
+    //   )
+    // },
     {
       title: "How do I access my online test results?",
       content: (
